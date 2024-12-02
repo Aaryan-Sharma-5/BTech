@@ -1,0 +1,89 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+double** memory(int rows, int cols) {
+    double** matrix = (double**)malloc(rows * sizeof(double*));
+    if (matrix == NULL) {
+        printf("Memory allocation failed\n");
+        exit(1);
+    }
+    for (int i = 0; i < rows; i++) {
+        matrix[i] = (double*)malloc(cols * sizeof(double));
+        if (matrix[i] == NULL) {
+            printf("Memory allocation failed\n");
+            exit(1);
+        }
+    }
+    return matrix;
+}
+
+void freememory(double** matrix, int rows) {
+    for (int i = 0; i < rows; i++) {
+        free(matrix[i]);
+    }
+    free(matrix);
+}
+
+void Transpose(double** matrix, double** transpose, int rows, int cols) {
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            transpose[j][i] = matrix[i][j];
+        }
+    }
+}
+
+void Matrix(double** matrix, int rows, int cols) {
+    printf("Matrix:\n");
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            printf("%.0f\t", matrix[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    printf("Aditya Baheti\n");
+    printf("16010123023\n");
+    int rows, cols;
+
+    printf("Enter the number of rows of the matrix: ");
+    if (scanf("%d", &rows) != 1 || rows <= 0) {
+        printf("Invalid input. Please enter a positive integer for the number of rows.\n");
+        return 1;
+    }
+
+    printf("Enter the number of columns of the matrix: ");
+    if (scanf("%d", &cols) != 1 || cols <= 0) {
+        printf("Invalid input. Please enter a positive integer for the number of columns.\n");
+        return 1;
+    }
+
+    double** matrix = memory(rows, cols);
+
+    printf("Enter the elements of the matrix:\n");
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            if (scanf("%lf", &matrix[i][j]) != 1) {
+                printf("Invalid input. Please enter a valid number.\n");
+                freememory(matrix, rows);
+                return 1;
+            }
+        }
+    }
+
+    double** transpose = memory(cols, rows);
+
+    Transpose(matrix, transpose, rows, cols);
+
+    Matrix(matrix, rows, cols);
+    printf("\n");
+    Matrix(transpose, cols, rows);
+
+    freememory(matrix, rows);
+    printf("Original matrix memory has been freed\n");
+    freememory(transpose, cols);
+    printf("Transpose matrix memory has been freed\n");
+
+    return 0;
+}
