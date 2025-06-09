@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JavaScript Basic Concepts</title>
+  </head>
+  <body>
+    <h1>First JavaScript</h1>
+    <script>
+      document.write("<hr>");
+      document.write("Hello World!");
+      document.write("<hr>");
+
+      // 1. Variables and Data Types
+      var name = "Aaryan";
+      let age = 20;
+      const PI = 3.14;
+      console.log(name, age, PI);
+      console.log(typeof name, typeof age, typeof PI);
+      alert("Hello " + name);
+      console.log("Hello " + name);
+      console.log(typeof name);
+      console.log(typeof age);
+      console.log(typeof document);
+
+      // 2. Operators
+      n1 = 10;
+      n2 = 20;
+      n3 = "30";
+      console.log(n1 + n2);
+      console.log(n1 - n2);
+      console.log(n1 * n2);
+      console.log(n1 / n2);
+      console.log(n1 % n2);
+      console.log(n1 > n2);
+      console.log(n1 == n2);
+      console.log(n1 + n3);
+      console.log("Square of " + n1 + " is " + n1 * n1);
+      console.log(`Square of ${n1} is ${n1 * n1}`);
+
+      // 3. Conditional Statements
+      let num = 10;
+      if (num > 0) {
+        console.log("Positive Number");
+      } else {
+        console.log("Negative Number");
+      }
+
+      // 4. Loops
+      for (i = 1; i <= 10; i++) {
+        console.log(i);
+      }
+      for (i = 1; i <= 10; i++) {
+        rem = i % 2;
+        if (rem == 0) {
+          console.log("Value of i is " + i + " and it is even");
+        }
+      }
+
+      // 5. Functions
+      function greet(name) {
+        return "Hello, " + name + "!";
+      }
+      console.log(greet("Aaryan"));
+
+      // 6. Arrays
+      users = ["Aaryan", "Rahul", "Rohit", "Raj", "Ravi"];
+      console.log(users);
+      console.log(users[0]);
+      console.log(users[1]);
+      console.log(users[2]);
+      console.log(users[3]);
+      console.log(users[4]);
+      users = ["Aaryan", 20, "Rahul", 21, "Rohit", 22, "Raj", 23, "Ravi", 24];
+      console.log(users);
+      console.log(typeof users);
+
+      record = [10, 30, 50, 20, 40];
+      console.log(record);
+      record.sort((a, b) => b - a);
+      console.log("Sorted record:", record);
+
+      // 7. Regular Expressions for Validation
+      const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      console.log(emailPattern.test("user@example.com"));
+
+    </script>
+  </body>
+</html>

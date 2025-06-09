@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JavaScript</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  </head>
+  <body class="bg-light">
+    <div class="container mt-5">
+      <div class="card shadow p-4">
+        <h2 class="text-center mb-4">JavaScript Functionality</h2>
+
+        <div class="mb-3">
+          <label class="form-label">Click to Display Date</label>
+          <input type="text" id="dateBox" class="form-control" readonly />
+          <button class="btn btn-primary mt-2" onclick="displayDate()">
+            Display Date
+          </button>
+        </div>
+
+        <button class="btn btn-success mt-2" onclick="calculateFactorial()">
+          Calculate Factorial
+        </button>
+        <button class="btn btn-warning mt-2" onclick="showMultiplicationTable()">
+          Multiplication Table
+        </button>
+      </div>
+
+      <div class="card shadow p-4 mt-4">
+        <h2 class="text-center">Registration Form</h2>
+        <form onsubmit="return validateForm()">
+          <div class="mb-3">
+            <label class="form-label">Name:</label>
+            <input type="text" id="name" class="form-control" />
+            <div id="nameError" class="text-danger"></div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Password:</label>
+            <input type="password" id="password" class="form-control" />
+            <div id="passwordError" class="text-danger"></div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Email:</label>
+            <input type="email" id="email" class="form-control" />
+            <div id="emailError" class="text-danger"></div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Phone Number:</label>
+            <input type="text" id="phone" class="form-control" />
+            <div id="phoneError" class="text-danger"></div>
+          </div>
+
+          <button type="submit" class="btn btn-primary w-100">Register</button>
+        </form>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      function displayDate() {
+        document.getElementById("dateBox").value = new Date().toLocaleDateString();
+      }
+
+      function calculateFactorial() {
+        let n = prompt("Enter a number:");
+        n = parseInt(n);
+        if (isNaN(n) || n < 0) {
+          alert("Please enter a valid positive number");
+          return;
+        }
+
+        let factorial = 1;
+        for (let i = 1; i <= n; i++) {
+          factorial *= i;
+        }
+        alert(`Factorial of ${n} is ${factorial}`);
+      }
+
+      function showMultiplicationTable() {
+        let n = prompt("Enter a number:");
+        n = parseInt(n);
+        if (isNaN(n)) {
+          alert("Please enter a valid number");
+          return;
+        }
+
+        let table = `Multiplication Table of ${n}:\n`;
+        for (let i = 1; i <= 10; i++) {
+          table += `${n} * ${i} = ${n * i}\n`;
+        }
+        alert(table);
+      }
+
+      function validateForm() {
+        let name = document.getElementById("name").value.trim();
+        let password = document.getElementById("password").value.trim();
+        let email = document.getElementById("email").value.trim();
+        let phone = document.getElementById("phone").value.trim();
+
+        let nameError = document.getElementById("nameError");
+        let passwordError = document.getElementById("passwordError");
+        let emailError = document.getElementById("emailError");
+        let phoneError = document.getElementById("phoneError");
+
+        nameError.textContent = passwordError.textContent = emailError.textContent = phoneError.textContent = "";
+
+        let isValid = true;
+        if (!/^[A-Za-z]{6,}$/.test(name)) {
+          nameError.textContent = "Name must contain only letters and be at least 6 characters long";
+          isValid = false;
+        }
+
+        if (password.length < 6) {
+          passwordError.textContent = "Password must be at least 6 characters long";
+          isValid = false;
+        }
+
+        let emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!emailPattern.test(email)) {
+          emailError.textContent = "Enter a valid email (e.g., aaryan@somaiya.edu)";
+          isValid = false;
+        }
+
+        if (!/^\d{10}$/.test(phone)) {
+          phoneError.textContent = "Phone number must contain exactly 10 digits";
+          isValid = false;
+        }
+        
+        if (isValid) {
+          alert("Form submitted successfully!");
+        } else {
+          alert("Please correct the errors in the form.");
+        }
+        return false;
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🥗 Calorie-Based Meal Planner</title>
+  <style>
+    :root {
+      --primary: #2d6a4f;
+      --primary-light: #40916c;
+      --primary-lighter: #95d5b2;
+      --secondary: #d8f3dc;
+      --text: #333;
+      --text-light: #666;
+      --white: #ffffff;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      --border-radius: 12px;
+      --background: #f9fafc;
+      --card-bg: #ffffff;
+      --border-color: #e9ecef;
+      --log-bg: #f8f9fa;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      transition: background-color 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--background);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 0;
+      margin: 0;
+    }
+
+    .header {
+      background-color: var(--primary);
+      color: white;
+      padding: 20px 30px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 30px 20px;
+    }
+
+    .card {
+      background-color: var(--card-bg);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 30px;
+      margin-bottom: 30px;
+    }
+
+    .card h2 {
+      color: var(--primary);
+      margin-bottom: 20px;
+      border-bottom: 2px solid var(--secondary);
+      padding-bottom: 10px;
+    }
+
+    .food-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin: 25px 0;
+    }
+
+    .food-item {
+      background-color: var(--secondary);
+      border-radius: 8px;
+      padding: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 170px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .food-item.highlight {
+      animation: pulse 1s infinite alternate;
+    }
+
+    @keyframes pulse {
+      from {
+        box-shadow: 0 0 0 0 rgba(64, 145, 108, 0.4);
+      }
+
+      to {
+        box-shadow: 0 0 0 10px rgba(64, 145, 108, 0);
+      }
+    }
+
+    .food-icon {
+      font-size: 24px;
+    }
+
+    .food-info {
+      flex-grow: 1;
+    }
+
+    .food-name {
+      font-weight: bold;
+    }
+
+    .calories {
+      color: var(--text-light);
+      font-size: 14px;
+    }
+
+    .delete-food {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      background: rgba(220, 53, 69, 0.1);
+      color: #dc3545;
+      border: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s ease;
+    }
+
+    .delete-food:hover {
+      background: rgba(220, 53, 69, 0.2);
+      transform: scale(1.1);
+    }
+
+    .controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 30px 0;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .target {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .target-value {
+      font-size: 24px;
+      font-weight: bold;
+      color: var(--primary);
+      background: var(--secondary);
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .target-value:hover {
+      background-color: var(--primary-lighter);
+    }
+
+    .target-input-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .target-input {
+      font-size: 18px;
+      padding: 8px 15px;
+      border-radius: 8px;
+      border: 2px solid var(--primary-lighter);
+      width: 80px;
+      text-align: center;
+      color: var(--text);
+      background-color: var(--card-bg);
+    }
+
+    .target-input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .button-group {
+      display: flex;
+      gap: 10px;
+    }
+
+    button {
+      padding: 12px 20px;
+      background-color: var(--primary-light);
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    button:hover {
+      background-color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    button:disabled {
+      background-color: #cccccc;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-icon {
+      font-size: 20px;
+    }
+
+    .results-section {
+      display: flex;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    .column {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    #output,
+    #report {
+      padding: 20px;
+      border-radius: var(--border-radius);
+      margin-top: 20px;
+      font-size: 15px;
+      max-height: 500px;
+      overflow-y: auto;
+      background-color: var(--log-bg);
+      border: 1px solid var(--border-color);
+    }
+
+    #output h3,
+    #report h3 {
+      color: var(--primary);
+      margin-bottom: 15px;
+    }
+
+    .log-entry {
+      padding: 8px 6px;
+      border-bottom: 1px solid var(--border-color);
+      opacity: 0.7;
+    }
+
+    .log-entry.active {
+      background-color: rgba(45, 106, 79, 0.1);
+      border-left: 4px solid var(--primary);
+      padding-left: 8px;
+      opacity: 1;
+    }
+
+    .valid-plan {
+      color: #28a745;
+      font-weight: bold;
+    }
+
+    .pruned-path {
+      color: #dc3545;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin: 20px 0;
+    }
+
+    .stat-card {
+      background-color: var(--card-bg);
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      padding: 15px;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 24px;
+      font-weight: bold;
+      color: var(--primary);
+      margin: 5px 0;
+    }
+
+    .stat-label {
+      color: var(--text-light);
+      font-size: 14px;
+    }
+
+    .meal-list {
+      list-style-type: none;
+    }
+
+    .meal-item {
+      background-color: var(--card-bg);
+      margin: 10px 0;
+      padding: 12px 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      display: flex;
+      align-items: center;
+    }
+
+    .meal-number {
+      background-color: var(--primary-lighter);
+      color: var(--primary);
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      margin-right: 12px;
+    }
+
+    .step-controls {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .progress-container {
+      height: 10px;
+      background-color: var(--secondary);
+      border-radius: 5px;
+      margin: 20px 0;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background-color: var(--primary);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    .add-food-form {
+      margin-top: 25px;
+      background-color: var(--secondary);
+      padding: 15px;
+      border-radius: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      align-items: center;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .form-group label {
+      font-size: 14px;
+      font-weight: bold;
+      color: var(--primary);
+    }
+
+    .form-control {
+      padding: 10px 15px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      background-color: var(--card-bg);
+      color: var(--text);
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    select.form-control {
+      min-width: 120px;
+    }
+
+    .add-food-btn {
+      align-self: flex-end;
+      margin-left: auto;
+    }
+
+    @media (max-width: 768px) {
+      .results-section {
+        flex-direction: column;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .controls {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .add-food-form {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .add-food-btn {
+        align-self: center;
+        margin-left: 0;
+      }
+    }
+
+    .step-animation {
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="header">
+    <h1><span>🥗</span> Calorie-Based Meal Planner</h1>
+  </div>
+
+  <div class="container">
+    <div class="card">
+      <h2>Plan Your Meal</h2>
+      <p>
+        The algorithm will find all possible meal combinations that add up to exactly the target calories. <br>
+        This demonstrates the <strong>Sum of Subsets</strong> algorithm, which uses backtracking to find
+        all valid combinations.
+      </p>
+
+      <div class="add-food-form">
+        <div class="form-group">
+          <label for="foodName">Food Name</label>
+          <input type="text" id="foodName" class="form-control" placeholder="e.g. Apple" required>
+        </div>
+        <div class="form-group">
+          <label for="foodCalories">Calories</label>
+          <input type="number" id="foodCalories" class="form-control" placeholder="e.g. 100" min="100" required>
+        </div>
+        <div class="form-group">
+          <label for="foodIcon">Icon</label>
+          <select id="foodIcon" class="form-control">
+            <option value="🍎">🍎 Apple</option>
+            <option value="🥪">🥪 Sandwich</option>
+            <option value="🥗">🥗 Salad</option>
+            <option value="🥛">🥛 Dairy</option>
+            <option value="🍫">🍫 Snack</option>
+            <option value="🍚">🍚 Rice</option>
+            <option value="🍗">🍗 Chicken</option>
+            <option value="🥩">🥩 Meat</option>
+            <option value="🍔">🍔 Burger</option>
+            <option value="🍕">🍕 Pizza</option>
+            <option value="🍌">🍌 Banana</option>
+            <option value="🥑">🥑 Avocado</option>
+            <option value="🍣">🍣 Sushi</option>
+            <option value="🥦">🥦 Vegetable</option>
+            <option value="🍉">🍉 Fruit</option>
+          </select>
+        </div>
+        <button id="addFoodBtn" class="add-food-btn"><span class="btn-icon">➕</span> Add Food</button>
+      </div>
+
+      <div class="food-items" id="foodItemsContainer">
+      </div>
+
+      <div class="controls">
+        <div class="target">
+          <h3>Target Calories:</h3>
+          <div id="targetDisplay" class="target-value">500 kcal</div>
+          <div class="target-input-container" style="display: none;">
+            <input type="number" id="targetInput" class="target-input" min="100" value="500">
+            <button id="saveTargetBtn" class="btn-icon">✅</button>
+          </div>
+        </div>
+        <div class="button-group">
+          <button id="runBtn"><span class="btn-icon">▶️</span> Run Full Algorithm</button>
+          <button id="stepBtn"><span class="btn-icon">👣</span> Step-by-Step</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="results-section">
+      <div class="column">
+        <div class="card">
+          <h2>Algorithm Execution</h2>
+          <div class="progress-container">
+            <div id="progressBar" class="progress-bar"></div>
+          </div>
+          <div id="output"></div>
+          <div class="step-controls">
+            <button id="prevStepBtn" disabled><span class="btn-icon">⏮️</span> Previous</button>
+            <button id="nextStepBtn" disabled><span class="btn-icon">⏭️</span> Next Step</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="card">
+          <h2>Results Summary</h2>
+          <div id="report"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let foodItems = [
+      { name: "Apple", calories: 100, icon: "🍎" },
+      { name: "Sandwich", calories: 250, icon: "🥪" },
+      { name: "Salad", calories: 150, icon: "🥗" },
+      { name: "Yogurt", calories: 200, icon: "🥛" },
+      { name: "Protein Bar", calories: 300, icon: "🍫" },
+    ];
+
+    let targetCalories = 500;
+
+    let totalCalls = 0;
+    let prunedPaths = 0;
+    let validSubsets = [];
+
+    let steps = [];
+    let currentStepIndex = -1;
+    let stepMode = false;
+
+    function renderFoodItems() {
+      const container = document.getElementById('foodItemsContainer');
+      container.innerHTML = '';
+
+      foodItems.forEach((item, index) => {
+        const foodElement = document.createElement('div');
+        foodElement.className = 'food-item';
+        foodElement.dataset.name = item.name;
+
+        foodElement.innerHTML = `
+          <div class="food-icon">${item.icon}</div>
+          <div class="food-info">
+            <div class="food-name">${item.name}</div>
+            <div class="calories">${item.calories} kcal</div>
+          </div>
+          <button class="delete-food" data-index="${index}" title="Remove food item">×</button>
+        `;
+
+        container.appendChild(foodElement);
+      });
+
+      document.querySelectorAll('.delete-food').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const index = parseInt(e.target.dataset.index);
+          foodItems.splice(index, 1);
+          renderFoodItems();
+        });
+      });
+    }
+
+    // Store all algorithm execution steps
+    function recordStep(step) {
+      steps.push(step);
+    }
+
+    function sumOfSubsets(index, subset, currentSum, depth) {
+      totalCalls++;
+
+      const indent = "&nbsp;&nbsp;".repeat(depth);
+      const subsetNames = subset.map(item => item.name);
+
+      let stepData = {
+        index: index,
+        subset: [...subset],
+        currentSum: currentSum,
+        depth: depth,
+        result: 'exploring',
+        html: `${indent}🔍 Exploring index ${index}, subset: [${subsetNames}], sum: ${currentSum}`
+      };
+
+      if (currentSum === targetCalories) {
+        stepData.result = 'valid';
+        stepData.html = `${indent}✅ Valid plan found: [${subsetNames}]`;
+        validSubsets.push([...subset]);
+      } else if (currentSum > targetCalories) {
+        stepData.result = 'pruned';
+        stepData.html = `${indent}❌ Exceeded target (sum = ${currentSum} > ${targetCalories})`;
+        prunedPaths++;
+      }
+
+      recordStep(stepData);
+
+      if (currentSum >= targetCalories) {
+        return;
+      }
+
+      for (let i = index; i < foodItems.length; i++) {
+        subset.push(foodItems[i]);
+        sumOfSubsets(i + 1, subset, currentSum + foodItems[i].calories, depth + 1);
+        subset.pop();
+      }
+    }
+
+    function runAlgorithm() {
+      totalCalls = 0;
+      prunedPaths = 0;
+      validSubsets = [];
+      steps = [];
+      currentStepIndex = -1;
+
+      if (foodItems.length === 0) {
+        const output = document.getElementById("output");
+        output.innerHTML = "<h3>⚠️ Warning</h3><p>Please add at least one food item to run the algorithm.</p>";
+        return;
+      }
+
+      sumOfSubsets(0, [], 0, 0);
+      if (stepMode) {
+        prepareStepByStep();
+      } else {
+        displayAllSteps();
+      }
+
+      updateReport();
+    }
+
+    function displayAllSteps() {
+      const output = document.getElementById("output");
+      output.innerHTML = "<h3>🧮 Execution Log</h3>";
+
+      steps.forEach(step => {
+        const logEntry = document.createElement('div');
+        logEntry.className = 'log-entry step-animation';
+
+        if (step.result === 'valid') {
+          logEntry.classList.add('valid-plan');
+        } else if (step.result === 'pruned') {
+          logEntry.classList.add('pruned-path');
+        }
+
+        logEntry.innerHTML = step.html;
+        output.appendChild(logEntry);
+      });
+
+      document.getElementById('progressBar').style.width = '100%';
+    }
+
+    function prepareStepByStep() {
+      const output = document.getElementById("output");
+      output.innerHTML = "<h3>🧮 Step-by-Step Execution</h3>";
+
+      document.getElementById('nextStepBtn').disabled = false;
+      document.getElementById('prevStepBtn').disabled = true;
+
+      if (steps.length > 0) {
+        goToStep(0);
+      }
+    }
+
+    function goToStep(stepIndex) {
+      if (stepIndex < 0 || stepIndex >= steps.length) return;
+
+      currentStepIndex = stepIndex;
+
+      const progressPercent = ((stepIndex + 1) / steps.length) * 100;
+      document.getElementById('progressBar').style.width = `${progressPercent}%`;
+
+      document.getElementById('prevStepBtn').disabled = (stepIndex === 0);
+      document.getElementById('nextStepBtn').disabled = (stepIndex === steps.length - 1);
+
+      const output = document.getElementById("output");
+
+      const header = output.querySelector('h3');
+      output.innerHTML = '';
+      output.appendChild(header);
+
+      for (let i = 0; i <= stepIndex; i++) {
+        const step = steps[i];
+        const logEntry = document.createElement('div');
+        logEntry.className = 'log-entry';
+
+        if (i === stepIndex) {
+          logEntry.classList.add('active', 'step-animation');
+        }
+
+        if (step.result === 'valid') {
+          logEntry.classList.add('valid-plan');
+        } else if (step.result === 'pruned') {
+          logEntry.classList.add('pruned-path');
+        }
+
+        logEntry.innerHTML = step.html;
+        output.appendChild(logEntry);
+      }
+
+      const activeEntry = output.querySelector('.active');
+      if (activeEntry) {
+        activeEntry.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+
+      highlightCurrentSubset(steps[stepIndex].subset);
+
+      updateStepReport(stepIndex);
+    }
+
+    function highlightCurrentSubset(subset) {
+      const foodItemElements = document.querySelectorAll('.food-item');
+      foodItemElements.forEach(item => {
+        item.classList.remove('highlight');
+      });
+
+      subset.forEach(item => {
+        const foodElement = document.querySelector(`.food-item[data-name="${item.name}"]`);
+        if (foodElement) {
+          foodElement.classList.add('highlight');
+        }
+      });
+    }
+
+    function updateStepReport(stepIndex) {
+      let validCount = 0;
+      let prunedCount = 0;
+
+      for (let i = 0; i <= stepIndex; i++) {
+        if (steps[i].result === 'valid') validCount++;
+        if (steps[i].result === 'pruned') prunedCount++;
+      }
+
+      const report = document.getElementById("report");
+
+      let statsHTML = `
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-value">${stepIndex + 1}</div>
+            <div class="stat-label">Steps Executed</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">${validCount}</div>
+            <div class="stat-label">Valid Plans Found</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">${prunedCount}</div>
+            <div class="stat-label">Pruned Paths</div>
+          </div>
+        </div>
+      `;
+
+      let mealsHTML = `<h3>🍽️ Valid Meal Combinations</h3>`;
+
+      const currentValidSubsets = [];
+      for (let i = 0; i <= stepIndex; i++) {
+        if (steps[i].result === 'valid') {
+          const subsetStr = JSON.stringify(steps[i].subset.map(item => item.name).sort());
+          const exists = currentValidSubsets.some(s =>
+            JSON.stringify(s.map(item => item.name).sort()) === subsetStr
+          );
+
+          if (!exists) {
+            currentValidSubsets.push(steps[i].subset);
+          }
+        }
+      }
+
+      if (currentValidSubsets.length > 0) {
+        mealsHTML += `<ul class="meal-list">`;
+        currentValidSubsets.forEach((subset, index) => {
+          let totalCal = subset.reduce((sum, item) => sum + item.calories, 0);
+
+          mealsHTML += `
+            <li class="meal-item step-animation">
+              <div class="meal-number">${index + 1}</div>
+              <div>
+                ${subset.map(item => `${item.icon} ${item.name}`).join(" + ")}
+                <div class="calories">${totalCal} kcal</div>
+              </div>
+            </li>
+          `;
+        });
+        mealsHTML += `</ul>`;
+      } else {
+        mealsHTML += `<p>No combinations found yet that match ${targetCalories} calories.</p>`;
+      }
+
+      report.innerHTML = statsHTML + mealsHTML;
+    }
+
+    function updateReport() {
+      const report = document.getElementById("report");
+
+      let statsHTML = `
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-value">${totalCalls}</div>
+            <div class="stat-label">Total Recursive Calls</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">${validSubsets.length}</div>
+            <div class="stat-label">Valid Meal Plans</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">${prunedPaths}</div>
+            <div class="stat-label">Pruned Paths</div>
+          </div>
+        </div>
+      `;
+
+      let mealsHTML = `<h3>🍽️ Valid Meal Combinations</h3>`;
+
+      if (validSubsets.length > 0) {
+        mealsHTML += `<ul class="meal-list">`;
+        validSubsets.forEach((subset, index) => {
+          let totalCal = subset.reduce((sum, item) => sum + item.calories, 0);
+
+          mealsHTML += `
+            <li class="meal-item step-animation">
+              <div class="meal-number">${index + 1}</div>
+              <div>
+                ${subset.map(item => `${item.icon} ${item.name}`).join(" + ")}
+                <div class="calories">${totalCal} kcal</div>
+              </div>
+            </li>
+          `;
+        });
+        mealsHTML += `</ul>`;
+      } else {
+        mealsHTML += `<p>No combinations found that exactly match ${targetCalories} calories.</p>`;
+      }
+
+      report.innerHTML = statsHTML + mealsHTML;
+    }
+
+    function addFoodItem() {
+      const nameInput = document.getElementById('foodName');
+      const caloriesInput = document.getElementById('foodCalories');
+      const iconSelect = document.getElementById('foodIcon');
+
+      const name = nameInput.value.trim();
+      const calories = parseInt(caloriesInput.value);
+      const icon = iconSelect.value;
+
+      if (!name) {
+        alert('Please enter a food name');
+        return;
+      }
+
+      if (isNaN(calories) || calories <= 99) {
+        alert('Please enter a valid calorie amount');
+        return;
+      }
+
+      foodItems.push({ name, calories, icon });
+
+      nameInput.value = '';
+      caloriesInput.value = '';
+      iconSelect.selectedIndex = 0;
+
+      renderFoodItems();
+    }
+
+    function initApp() {
+      renderFoodItems();
+
+      document.getElementById('addFoodBtn').addEventListener('click', addFoodItem);
+
+      document.getElementById('runBtn').addEventListener('click', function () {
+        stepMode = false;
+        runAlgorithm();
+      });
+
+      document.getElementById('stepBtn').addEventListener('click', function () {
+        stepMode = true;
+        runAlgorithm();
+      });
+
+      document.getElementById('prevStepBtn').addEventListener('click', function () {
+        goToStep(currentStepIndex - 1);
+      });
+
+      document.getElementById('nextStepBtn').addEventListener('click', function () {
+        goToStep(currentStepIndex + 1);
+      });
+
+      const targetDisplay = document.getElementById('targetDisplay');
+      const targetInputContainer = targetDisplay.nextElementSibling;
+      const targetInput = document.getElementById('targetInput');
+
+      targetDisplay.addEventListener('click', function () {
+        targetDisplay.style.display = 'none';
+        targetInputContainer.style.display = 'flex';
+        targetInput.value = targetCalories;
+        targetInput.focus();
+      });
+
+      document.getElementById('saveTargetBtn').addEventListener('click', function () {
+        const newTarget = parseInt(targetInput.value);
+        if (!isNaN(newTarget) && newTarget > 0) {
+          targetCalories = newTarget;
+          targetDisplay.textContent = `${targetCalories} kcal`;
+          targetDisplay.style.display = 'block';
+          targetInputContainer.style.display = 'none';
+        } else {
+          alert('Please enter a valid calorie target');
+        }
+      });
+
+      targetInput.addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+          document.getElementById('saveTargetBtn').click();
+        }
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', initApp);
+  </script>
+
+  <footer style="background-color: var(--primary); color: white; text-align: center; padding: 0px; margin-top: 40px;">
+    <div class="container">
+      <p>🥗 Calorie-Based Meal Planner - A demonstration of the Sum of Subsets algorithm</p>
+      <p style="margin-top: 20px; font-size: 14px;">
+        © 2025 | SY A | Group 17
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>
