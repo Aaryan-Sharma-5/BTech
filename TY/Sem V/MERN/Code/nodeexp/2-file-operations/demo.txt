@@ -1,0 +1,8 @@
+Line 1: Welcome to file operations
+Line 2: This demonstrates file handling
+Line 3: Using Node.js built-in fs module
+Line 4: Check permissions and existence
+Line 5: Count lines in this file
+Line 6: Read file line by line
+Line 7: View through browser
+Line 8: End of demo file

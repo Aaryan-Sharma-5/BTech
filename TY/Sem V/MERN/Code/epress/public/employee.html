@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employees - Grocery Delivery App</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="navbar">
+        <div class="container">
+            <h2>Fresh Grocery Delivery</h2>
+            <nav>
+                <a href="/">Home</a>
+                <a href="/products">Products</a>
+                <a href="/orders">Orders</a>
+                <a href="/employee">Employees</a>
+                <a href="/images-demo">Images Demo</a>
+            </nav>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>Our Team</h1>
+        <p class="subtitle">Meet our dedicated employees</p>
+
+        <div class="info-box">
+            <h3>Employee Data Source</h3>
+            <p><strong>JSON File Location:</strong> <code>/data/employees.json</code></p>
+            <p>
+                <a href="/data/employees.json" target="_blank" class="btn">View Raw JSON Data</a>
+            </p>
+        </div>
+
+        <div id="employeeContainer">
+            <p>Loading employee information...</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Fresh Grocery Delivery. All rights reserved.</p>
+    </footer>
+
+    <script src="/js/employee.js"></script>
+</body>
+</html>

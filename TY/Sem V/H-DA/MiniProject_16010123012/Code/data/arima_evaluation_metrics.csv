@@ -1,0 +1,9 @@
+Metric,Value
+MAE,14.5110
+MSE,458.5129
+RMSE,21.4129
+NRMSE (%),37.5665
+MAPE (%),27.3119
+R² Score,-0.6542
+Mean Actual,73.5374
+Mean Predicted,86.9867

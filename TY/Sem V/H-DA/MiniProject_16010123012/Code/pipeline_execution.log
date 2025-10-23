@@ -1,0 +1,766 @@
+2025-10-23 18:14:42,244 - INFO - 
+======================================================================
+2025-10-23 18:14:42,244 - INFO - HUMIDITY PREDICTION PIPELINE - STARTING
+2025-10-23 18:14:42,244 - INFO - ======================================================================
+
+2025-10-23 18:14:42,245 - INFO - Checking dependencies...
+2025-10-23 18:14:55,709 - INFO - pandas is installed
+2025-10-23 18:14:55,710 - INFO - numpy is installed
+2025-10-23 18:14:57,296 - INFO - matplotlib is installed
+2025-10-23 18:15:24,496 - INFO - seaborn is installed
+2025-10-23 18:15:24,497 - INFO - statsmodels is installed
+2025-10-23 18:15:29,925 - INFO - sklearn is installed
+2025-10-23 18:15:29,926 - INFO - scipy is installed
+2025-10-23 18:15:31,413 - INFO - requests is installed
+2025-10-23 18:15:31,414 - INFO - All dependencies are satisfied
+
+2025-10-23 18:15:31,415 - INFO - 
+======================================================================
+2025-10-23 18:15:31,415 - INFO - Executing Step 1/7
+2025-10-23 18:15:31,416 - INFO - ======================================================================
+
+2025-10-23 18:15:31,417 - INFO - ======================================================================
+2025-10-23 18:15:31,418 - INFO - STEP: Data Collection
+2025-10-23 18:15:31,418 - INFO - Script: 1)dataset.py
+2025-10-23 18:15:31,419 - INFO - Description: Fetching humidity data from Open-Meteo API
+2025-10-23 18:15:31,419 - INFO - ======================================================================
+2025-10-23 18:15:33,210 - INFO - Data Collection completed successfully
+
+2025-10-23 18:15:33,211 - INFO - Output verified: ghatkopar_humidity_2023_2024.csv
+2025-10-23 18:15:33,211 - INFO - 
+======================================================================
+2025-10-23 18:15:33,212 - INFO - Executing Step 2/7
+2025-10-23 18:15:33,212 - INFO - ======================================================================
+
+2025-10-23 18:15:33,212 - INFO - ======================================================================
+2025-10-23 18:15:33,213 - INFO - STEP: Data Preprocessing
+2025-10-23 18:15:33,213 - INFO - Script: 2)data_processing.py
+2025-10-23 18:15:33,213 - INFO - Description: Cleaning and validating data
+2025-10-23 18:15:33,213 - INFO - ======================================================================
+2025-10-23 18:15:54,683 - INFO - Data Preprocessing completed successfully
+
+2025-10-23 18:15:54,684 - INFO - Output verified: cleaned_humidity.csv
+2025-10-23 18:15:54,684 - INFO - 
+======================================================================
+2025-10-23 18:15:54,684 - INFO - Executing Step 3/7
+2025-10-23 18:15:54,684 - INFO - ======================================================================
+
+2025-10-23 18:15:54,685 - INFO - ======================================================================
+2025-10-23 18:15:54,685 - INFO - STEP: Exploratory Data Analysis
+2025-10-23 18:15:54,685 - INFO - Script: 3)EDA.py
+2025-10-23 18:15:54,685 - INFO - Description: Analyzing trends and patterns
+2025-10-23 18:15:54,685 - INFO - ======================================================================
+2025-10-23 18:16:08,756 - ERROR - Error output:
+2025-10-23 18:15:59,067 - INFO - Starting Exploratory Data Analysis...
+2025-10-23 18:15:59,112 - INFO - \u2705 Data loaded successfully: 731 records
+2025-10-23 18:15:59,112 - INFO - 
+1. Plotting humidity trend...
+2025-10-23 18:15:59,805 - INFO - Saved: humidity_trend.png
+2025-10-23 18:16:04,563 - INFO - 
+2. Analyzing monthly patterns...
+2025-10-23 18:16:04,746 - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+D:\KJSCE\BTech\TY\Sem V\H-DA\MiniProject_16010123012\Code\3)EDA.py:95: FutureWarning: 
+
+Passing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `x` variable to `hue` and set `legend=False` for the same effect.
+
+  sns.barplot(x=monthly_avg.index, y=monthly_avg.values, palette="Blues_d")
+2025-10-23 18:16:04,764 - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2025-10-23 18:16:05,161 - INFO - Saved: monthly_humidity.png
+2025-10-23 18:16:08,236 - INFO - 
+3. Testing stationarity...
+2025-10-23 18:16:08,237 - INFO - 
+============================================================
+2025-10-23 18:16:08,238 - INFO - Augmented Dickey-Fuller Test - Original Humidity Data
+2025-10-23 18:16:08,239 - INFO - ============================================================
+Traceback (most recent call last):
+  File "D:\KJSCE\BTech\TY\Sem V\H-DA\MiniProject_16010123012\Code\3)EDA.py", line 247, in <module>
+    main()
+  File "D:\KJSCE\BTech\TY\Sem V\H-DA\MiniProject_16010123012\Code\3)EDA.py", line 224, in main
+    test_stationarity(df['humidity'], 'Original Humidity Data')
+  File "D:\KJSCE\BTech\TY\Sem V\H-DA\MiniProject_16010123012\Code\3)EDA.py", line 63, in test_stationarity
+    print(f"\n\u26a0 Result: Data is NON-STATIONARY (p-value = {result[1]:.6f} > 0.05)")
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.2800.0_x64__qbz5n2kfra8p0\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u26a0' in position 2: character maps to <undefined>
+
+2025-10-23 18:16:08,757 - ERROR - Exploratory Data Analysis failed with return code 1
+
+2025-10-23 18:16:08,757 - ERROR - 
+Step failed: Exploratory Data Analysis
+2025-10-23 19:38:11,565 - INFO - 
+======================================================================
+2025-10-23 19:38:11,598 - INFO - Executing Step 4/7
+2025-10-23 19:38:11,600 - INFO - ======================================================================
+
+2025-10-23 19:38:11,603 - INFO - ======================================================================
+2025-10-23 19:38:11,604 - INFO - STEP: ARIMA Modeling
+2025-10-23 19:38:11,605 - INFO - Script: 4)forecasting_with_arima.py
+2025-10-23 19:38:11,606 - INFO - Description: Building ARIMA forecast model
+2025-10-23 19:38:11,608 - INFO - ======================================================================
+2025-10-23 19:39:05,646 - INFO - 
+
+Pipeline interrupted by user
+2025-10-23 19:39:11,113 - INFO - 
+======================================================================
+2025-10-23 19:39:11,113 - INFO - HUMIDITY PREDICTION PIPELINE - STARTING
+2025-10-23 19:39:11,113 - INFO - ======================================================================
+
+2025-10-23 19:39:11,113 - INFO - Checking dependencies...
+2025-10-23 19:39:12,188 - INFO - pandas is installed
+2025-10-23 19:39:12,189 - INFO - numpy is installed
+2025-10-23 19:39:12,470 - INFO - matplotlib is installed
+2025-10-23 19:39:16,951 - INFO - seaborn is installed
+2025-10-23 19:39:16,952 - INFO - statsmodels is installed
+2025-10-23 19:39:21,666 - INFO - sklearn is installed
+2025-10-23 19:39:21,666 - INFO - scipy is installed
+2025-10-23 19:39:24,005 - INFO - requests is installed
+2025-10-23 19:39:24,006 - INFO - All dependencies are satisfied
+
+2025-10-23 19:39:24,006 - INFO - 
+======================================================================
+2025-10-23 19:39:24,007 - INFO - Executing Step 1/7
+2025-10-23 19:39:24,007 - INFO - ======================================================================
+
+2025-10-23 19:39:24,008 - INFO - ======================================================================
+2025-10-23 19:39:24,009 - INFO - STEP: Data Collection
+2025-10-23 19:39:24,010 - INFO - Script: 1)dataset.py
+2025-10-23 19:39:24,010 - INFO - Description: Fetching humidity data from Open-Meteo API
+2025-10-23 19:39:24,011 - INFO - ======================================================================
+2025-10-23 19:39:28,594 - INFO - Data Collection completed successfully
+
+2025-10-23 19:39:28,594 - INFO - Output verified: ghatkopar_humidity_2023_2024.csv
+2025-10-23 19:39:28,594 - INFO - 
+======================================================================
+2025-10-23 19:39:28,596 - INFO - Executing Step 2/7
+2025-10-23 19:39:28,596 - INFO - ======================================================================
+
+2025-10-23 19:39:28,596 - INFO - ======================================================================
+2025-10-23 19:39:28,596 - INFO - STEP: Data Preprocessing
+2025-10-23 19:39:28,596 - INFO - Script: 2)data_processing.py
+2025-10-23 19:39:28,596 - INFO - Description: Cleaning and validating data
+2025-10-23 19:39:28,596 - INFO - ======================================================================
+2025-10-23 19:39:51,759 - INFO - Data Preprocessing completed successfully
+
+2025-10-23 19:39:51,760 - INFO - Output verified: cleaned_humidity.csv
+2025-10-23 19:39:51,760 - INFO - 
+======================================================================
+2025-10-23 19:39:51,760 - INFO - Executing Step 3/7
+2025-10-23 19:39:51,761 - INFO - ======================================================================
+
+2025-10-23 19:39:51,761 - INFO - ======================================================================
+2025-10-23 19:39:51,761 - INFO - STEP: Exploratory Data Analysis
+2025-10-23 19:39:51,762 - INFO - Script: 3)EDA.py
+2025-10-23 19:39:51,762 - INFO - Description: Analyzing trends and patterns
+2025-10-23 19:39:51,762 - INFO - ======================================================================
+2025-10-23 19:40:28,166 - INFO - Exploratory Data Analysis completed successfully
+
+2025-10-23 19:40:28,166 - INFO - Output verified: humidity_trend.png
+2025-10-23 19:40:28,166 - INFO - 
+======================================================================
+2025-10-23 19:40:28,166 - INFO - Executing Step 4/7
+2025-10-23 19:40:28,167 - INFO - ======================================================================
+
+2025-10-23 19:40:28,167 - INFO - ======================================================================
+2025-10-23 19:40:28,167 - INFO - STEP: ARIMA Modeling
+2025-10-23 19:40:28,168 - INFO - Script: 4)forecasting_with_arima.py
+2025-10-23 19:40:28,168 - INFO - Description: Building ARIMA forecast model
+2025-10-23 19:40:28,168 - INFO - ======================================================================
+2025-10-23 19:40:46,964 - ERROR - Error output:
+2025-10-23 19:40:30,805 - INFO - Starting ARIMA Forecasting Pipeline...
+2025-10-23 19:40:30,820 - INFO - \u2705 Data loaded: 731 records
+2025-10-23 19:40:30,822 - INFO - Date range: 2023-01-01 00:00:00 to 2024-12-31 00:00:00
+2025-10-23 19:40:30,823 - INFO - 
+Train size: 584 records (2023-01-01 00:00:00 to 2024-08-06 00:00:00)
+2025-10-23 19:40:30,823 - INFO - Test size: 147 records (2024-08-07 00:00:00 to 2024-12-31 00:00:00)
+2025-10-23 19:40:30,823 - INFO - Starting ARIMA parameter grid search...
+2025-10-23 19:40:30,823 - INFO - Testing 32 parameter combinations...
+2025-10-23 19:40:31,026 - INFO - New best: ARIMA(0, 0, 0) with AIC=4906.48
+2025-10-23 19:40:31,122 - INFO - New best: ARIMA(0, 0, 1) with AIC=4291.77
+2025-10-23 19:40:31,293 - INFO - New best: ARIMA(0, 0, 2) with AIC=3991.75
+2025-10-23 19:40:31,734 - INFO - New best: ARIMA(0, 0, 3) with AIC=3848.84
+2025-10-23 19:40:31,746 - INFO - New best: ARIMA(0, 1, 0) with AIC=3732.75
+2025-10-23 19:40:31,769 - INFO - New best: ARIMA(0, 1, 1) with AIC=3684.63
+2025-10-23 19:40:31,882 - INFO - New best: ARIMA(0, 1, 2) with AIC=3664.51
+2025-10-23 19:40:32,010 - INFO - New best: ARIMA(0, 1, 3) with AIC=3627.51
+2025-10-23 19:40:33,136 - INFO - New best: ARIMA(1, 1, 2) with AIC=3617.64
+2025-10-23 19:40:33,344 - INFO - New best: ARIMA(1, 1, 3) with AIC=3616.20
+2025-10-23 19:40:34,776 - INFO - New best: ARIMA(2, 1, 2) with AIC=3615.34
+2025-10-23 19:40:37,862 - INFO - 
+============================================================
+2025-10-23 19:40:37,863 - INFO - Grid Search Complete!
+2025-10-23 19:40:37,863 - INFO - Best ARIMA parameters: (2, 1, 2)
+2025-10-23 19:40:37,863 - INFO - Best AIC: 3615.34
+2025-10-23 19:40:37,863 - INFO - ============================================================
+
+2025-10-23 19:40:37,863 - INFO - 
+Fitting final ARIMA(2, 1, 2) model...
+2025-10-23 19:40:38,052 - INFO - 
+ARIMA Model Residual Analysis
+2025-10-23 19:40:38,052 - INFO - ============================================================
+2025-10-23 19:40:38,964 - INFO - Saved: arima_residual_analysis.png
+Traceback (most recent call last):
+  File "D:\KJSCE\BTech\TY\Sem V\H-DA\MiniProject_16010123012\Code\4)forecasting_with_arima.py", line 283, in <module>
+    main()
+  File "D:\KJSCE\BTech\TY\Sem V\H-DA\MiniProject_16010123012\Code\4)forecasting_with_arima.py", line 252, in main
+    analyze_residuals(residuals, "ARIMA Model Residual Analysis")
+  File "D:\KJSCE\BTech\TY\Sem V\H-DA\MiniProject_16010123012\Code\4)forecasting_with_arima.py", line 153, in analyze_residuals
+    print("\u2705 Residuals appear to be white noise (p > 0.05)")
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.2800.0_x64__qbz5n2kfra8p0\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2705' in position 0: character maps to <undefined>
+
+2025-10-23 19:40:46,964 - ERROR - ARIMA Modeling failed with return code 1
+
+2025-10-23 19:40:46,965 - ERROR - 
+Step failed: ARIMA Modeling
+2025-10-23 19:40:53,130 - INFO - 
+======================================================================
+2025-10-23 19:40:53,130 - INFO - Executing Step 5/7
+2025-10-23 19:40:53,131 - INFO - ======================================================================
+
+2025-10-23 19:40:53,132 - INFO - ======================================================================
+2025-10-23 19:40:53,132 - INFO - STEP: ARIMA Evaluation
+2025-10-23 19:40:53,133 - INFO - Script: 5)model_evaluation.py
+2025-10-23 19:40:53,133 - INFO - Description: Evaluating ARIMA performance
+2025-10-23 19:40:53,133 - INFO - ======================================================================
+2025-10-23 19:40:57,119 - ERROR - Error output:
+2025-10-23 19:40:56,702 - INFO - Starting ARIMA Model Evaluation...
+2025-10-23 19:40:56,767 - INFO - \u2705 Data loaded successfully
+2025-10-23 19:40:56,768 - INFO - Evaluating 147 predictions
+Traceback (most recent call last):
+  File "D:\KJSCE\BTech\TY\Sem V\H-DA\MiniProject_16010123012\Code\5)model_evaluation.py", line 232, in <module>
+    main()
+  File "D:\KJSCE\BTech\TY\Sem V\H-DA\MiniProject_16010123012\Code\5)model_evaluation.py", line 217, in main
+    print_metrics_report(metrics)
+  File "D:\KJSCE\BTech\TY\Sem V\H-DA\MiniProject_16010123012\Code\5)model_evaluation.py", line 84, in print_metrics_report
+    print("\U0001f4ca ARIMA MODEL EVALUATION METRICS")
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.2800.0_x64__qbz5n2kfra8p0\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\U0001f4ca' in position 0: character maps to <undefined>
+
+2025-10-23 19:40:57,120 - ERROR - ARIMA Evaluation failed with return code 1
+
+2025-10-23 19:40:57,120 - ERROR - 
+Step failed: ARIMA Evaluation
+2025-10-23 19:41:10,227 - INFO - 
+======================================================================
+2025-10-23 19:41:10,227 - INFO - Executing Step 6/7
+2025-10-23 19:41:10,228 - INFO - ======================================================================
+
+2025-10-23 19:41:10,228 - INFO - ======================================================================
+2025-10-23 19:41:10,228 - INFO - STEP: SARIMA Modeling
+2025-10-23 19:41:10,228 - INFO - Script: 6)forecasting_with_sarima.py
+2025-10-23 19:41:10,228 - INFO - Description: Building SARIMA forecast model
+2025-10-23 19:41:10,228 - INFO - ======================================================================
+2025-10-23 19:41:33,493 - ERROR - Error output:
+2025-10-23 19:41:11,683 - INFO - Starting SARIMA Forecasting Pipeline...
+2025-10-23 19:41:11,687 - INFO - \u2705 Data loaded: 731 records
+2025-10-23 19:41:11,688 - INFO - Date range: 2023-01-01 00:00:00 to 2024-12-31 00:00:00
+2025-10-23 19:41:11,688 - INFO - 
+Visualizing potential seasonality...
+2025-10-23 19:41:12,357 - INFO - Saved: sarima_seasonality_check.png
+2025-10-23 19:41:15,031 - INFO - 
+Train size: 584 records
+2025-10-23 19:41:15,031 - INFO - Test size: 147 records
+2025-10-23 19:41:15,031 - INFO - Starting SARIMA parameter grid search...
+2025-10-23 19:41:15,032 - INFO - Testing 64 parameter combinations...
+2025-10-23 19:41:15,032 - INFO - Seasonal period (m): 12 months
+2025-10-23 19:41:15,085 - INFO - [1/64] New best: SARIMA(0, 0, 0)x(0, 0, 0, 12) - AIC=6618.68
+2025-10-23 19:41:15,363 - INFO - [2/64] New best: SARIMA(0, 0, 0)x(0, 0, 1, 12) - AIC=5862.08
+2025-10-23 19:41:15,381 - INFO - [3/64] New best: SARIMA(0, 0, 0)x(0, 1, 0, 12) - AIC=4507.57
+2025-10-23 19:41:15,510 - INFO - [4/64] New best: SARIMA(0, 0, 0)x(0, 1, 1, 12) - AIC=4359.12
+2025-10-23 19:41:16,537 - INFO - [11/64] New best: SARIMA(0, 0, 1)x(0, 1, 0, 12) - AIC=4057.68
+2025-10-23 19:41:16,741 - INFO - [12/64] New best: SARIMA(0, 0, 1)x(0, 1, 1, 12) - AIC=3875.60
+2025-10-23 19:41:17,785 - INFO - [17/64] New best: SARIMA(0, 1, 0)x(0, 0, 0, 12) - AIC=3727.33
+2025-10-23 19:41:17,829 - INFO - [18/64] New best: SARIMA(0, 1, 0)x(0, 0, 1, 12) - AIC=3652.89
+2025-10-23 19:41:18,062 - INFO - [20/64] New best: SARIMA(0, 1, 0)x(0, 1, 1, 12) - AIC=3623.25
+2025-10-23 19:41:18,614 - INFO - [26/64] New best: SARIMA(0, 1, 1)x(0, 0, 1, 12) - AIC=3602.82
+2025-10-23 19:41:19,035 - INFO - [28/64] New best: SARIMA(0, 1, 1)x(0, 1, 1, 12) - AIC=3571.00
+2025-10-23 19:41:22,447 - INFO - [44/64] New best: SARIMA(1, 0, 1)x(0, 1, 1, 12) - AIC=3547.23
+2025-10-23 19:41:28,910 - INFO - 
+======================================================================
+2025-10-23 19:41:28,910 - INFO - Grid Search Complete!
+2025-10-23 19:41:28,910 - INFO - Best SARIMA parameters: (1, 0, 1) x (0, 1, 1, 12)
+2025-10-23 19:41:28,910 - INFO - Best AIC: 3547.23
+2025-10-23 19:41:28,910 - INFO - ======================================================================
+
+2025-10-23 19:41:28,917 - INFO - 
+Fitting final SARIMA model...
+2025-10-23 19:41:29,286 - INFO - 
+SARIMA Residual Analysis
+2025-10-23 19:41:29,286 - INFO - ======================================================================
+2025-10-23 19:41:30,186 - INFO - Saved: sarima_residual_analysis.png
+Traceback (most recent call last):
+  File "D:\KJSCE\BTech\TY\Sem V\H-DA\MiniProject_16010123012\Code\6)forecasting_with_sarima.py", line 305, in <module>
+    main()
+  File "D:\KJSCE\BTech\TY\Sem V\H-DA\MiniProject_16010123012\Code\6)forecasting_with_sarima.py", line 274, in main
+    analyze_residuals(residuals)
+  File "D:\KJSCE\BTech\TY\Sem V\H-DA\MiniProject_16010123012\Code\6)forecasting_with_sarima.py", line 190, in analyze_residuals
+    print("\u26a0 Residuals may have autocorrelation (p <= 0.05)")
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.2800.0_x64__qbz5n2kfra8p0\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u26a0' in position 0: character maps to <undefined>
+
+2025-10-23 19:41:33,495 - ERROR - SARIMA Modeling failed with return code 1
+
+2025-10-23 19:41:33,495 - ERROR - 
+Step failed: SARIMA Modeling
+2025-10-23 19:41:37,882 - INFO - 
+======================================================================
+2025-10-23 19:41:37,883 - INFO - Executing Step 7/7
+2025-10-23 19:41:37,883 - INFO - ======================================================================
+
+2025-10-23 19:41:37,883 - INFO - ======================================================================
+2025-10-23 19:41:37,884 - INFO - STEP: Model Comparison
+2025-10-23 19:41:37,884 - INFO - Script: 7)model_evaluation_sarima.py
+2025-10-23 19:41:37,884 - INFO - Description: Comparing ARIMA vs SARIMA
+2025-10-23 19:41:37,885 - INFO - ======================================================================
+2025-10-23 19:41:40,043 - ERROR - Error output:
+2025-10-23 19:41:39,678 - INFO - Starting Comprehensive Model Comparison...
+2025-10-23 19:41:39,728 - INFO - \u2705 All data loaded successfully
+2025-10-23 19:41:39,728 - INFO - Comparing 147 predictions
+Traceback (most recent call last):
+  File "D:\KJSCE\BTech\TY\Sem V\H-DA\MiniProject_16010123012\Code\7)model_evaluation_sarima.py", line 309, in <module>
+    main()
+  File "D:\KJSCE\BTech\TY\Sem V\H-DA\MiniProject_16010123012\Code\7)model_evaluation_sarima.py", line 289, in main
+    best_model = print_comparison_report(metrics_arima, metrics_sarima)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\KJSCE\BTech\TY\Sem V\H-DA\MiniProject_16010123012\Code\7)model_evaluation_sarima.py", line 73, in print_comparison_report
+    print("\U0001f4ca MODEL COMPARISON: ARIMA vs SARIMA")
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.2800.0_x64__qbz5n2kfra8p0\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\U0001f4ca' in position 0: character maps to <undefined>
+
+2025-10-23 19:41:40,043 - ERROR - Model Comparison failed with return code 1
+
+2025-10-23 19:41:40,044 - ERROR - 
+Step failed: Model Comparison
+2025-10-23 19:41:42,656 - INFO - 
+======================================================================
+2025-10-23 19:41:42,657 - INFO - PIPELINE EXECUTION SUMMARY
+2025-10-23 19:41:42,658 - INFO - ======================================================================
+2025-10-23 19:41:42,658 - INFO - Total Steps: 7
+2025-10-23 19:41:42,659 - INFO - Completed: 3
+2025-10-23 19:41:42,659 - INFO - Failed: 4
+2025-10-23 19:41:42,660 - INFO - 
+Completed Steps:
+2025-10-23 19:41:42,660 - INFO -    • Data Collection
+2025-10-23 19:41:42,662 - INFO -    • Data Preprocessing
+2025-10-23 19:41:42,662 - INFO -    • Exploratory Data Analysis
+2025-10-23 19:41:42,663 - INFO - 
+Failed Steps:
+2025-10-23 19:41:42,663 - INFO -    • ARIMA Modeling
+2025-10-23 19:41:42,664 - INFO -    • ARIMA Evaluation
+2025-10-23 19:41:42,665 - INFO -    • SARIMA Modeling
+2025-10-23 19:41:42,666 - INFO -    • Model Comparison
+2025-10-23 19:41:42,666 - INFO - ======================================================================
+2025-10-23 19:41:42,667 - WARNING - 
+Pipeline completed with some failures
+2025-10-23 19:41:42,668 - WARNING - Check pipeline_execution.log for details
+2025-10-23 21:22:44,279 - INFO - 
+======================================================================
+2025-10-23 21:22:44,284 - INFO - HUMIDITY PREDICTION PIPELINE - STARTING
+2025-10-23 21:22:44,286 - INFO - ======================================================================
+
+2025-10-23 21:22:44,286 - INFO - Checking dependencies...
+2025-10-23 21:23:20,992 - INFO - pandas is installed
+2025-10-23 21:23:20,997 - INFO - numpy is installed
+2025-10-23 21:23:25,109 - INFO - matplotlib is installed
+2025-10-23 21:24:08,782 - INFO - seaborn is installed
+2025-10-23 21:24:08,783 - INFO - statsmodels is installed
+2025-10-23 21:24:13,976 - INFO - sklearn is installed
+2025-10-23 21:24:13,977 - INFO - scipy is installed
+2025-10-23 21:24:17,066 - INFO - requests is installed
+2025-10-23 21:24:17,066 - INFO - All dependencies are satisfied
+
+2025-10-23 21:24:17,066 - INFO - 
+======================================================================
+2025-10-23 21:24:17,067 - INFO - Executing Step 1/7
+2025-10-23 21:24:17,067 - INFO - ======================================================================
+
+2025-10-23 21:24:17,069 - INFO - ======================================================================
+2025-10-23 21:24:17,069 - INFO - STEP: Data Collection
+2025-10-23 21:24:17,069 - INFO - Script: 1)dataset.py
+2025-10-23 21:24:17,070 - INFO - Description: Fetching humidity data from Open-Meteo API
+2025-10-23 21:24:17,070 - INFO - ======================================================================
+2025-10-23 21:24:22,600 - INFO - Data Collection completed successfully
+
+2025-10-23 21:24:22,602 - INFO - Output verified: ghatkopar_humidity_2023_2024.csv
+2025-10-23 21:24:22,602 - INFO - 
+======================================================================
+2025-10-23 21:24:22,602 - INFO - Executing Step 2/7
+2025-10-23 21:24:22,604 - INFO - ======================================================================
+
+2025-10-23 21:24:22,604 - INFO - ======================================================================
+2025-10-23 21:24:22,605 - INFO - STEP: Data Preprocessing
+2025-10-23 21:24:22,605 - INFO - Script: 2)data_processing.py
+2025-10-23 21:24:22,606 - INFO - Description: Cleaning and validating data
+2025-10-23 21:24:22,606 - INFO - ======================================================================
+2025-10-23 21:24:45,651 - INFO - Data Preprocessing completed successfully
+
+2025-10-23 21:24:45,652 - INFO - Output verified: cleaned_humidity.csv
+2025-10-23 21:24:45,653 - INFO - 
+======================================================================
+2025-10-23 21:24:45,653 - INFO - Executing Step 3/7
+2025-10-23 21:24:45,654 - INFO - ======================================================================
+
+2025-10-23 21:24:45,654 - INFO - ======================================================================
+2025-10-23 21:24:45,655 - INFO - STEP: Exploratory Data Analysis
+2025-10-23 21:24:45,655 - INFO - Script: 3)EDA.py
+2025-10-23 21:24:45,656 - INFO - Description: Analyzing trends and patterns
+2025-10-23 21:24:45,657 - INFO - ======================================================================
+2025-10-23 21:25:23,293 - INFO - Exploratory Data Analysis completed successfully
+
+2025-10-23 21:25:23,294 - INFO - Output verified: humidity_trend.png
+2025-10-23 21:25:23,295 - INFO - 
+======================================================================
+2025-10-23 21:25:23,295 - INFO - Executing Step 4/7
+2025-10-23 21:25:23,295 - INFO - ======================================================================
+
+2025-10-23 21:25:23,296 - INFO - ======================================================================
+2025-10-23 21:25:23,296 - INFO - STEP: ARIMA Modeling
+2025-10-23 21:25:23,297 - INFO - Script: 4)forecasting_with_arima.py
+2025-10-23 21:25:23,297 - INFO - Description: Building ARIMA forecast model
+2025-10-23 21:25:23,297 - INFO - ======================================================================
+2025-10-23 21:25:54,180 - INFO - ARIMA Modeling completed successfully
+
+2025-10-23 21:25:54,181 - INFO - Output verified: forecast_results.csv
+2025-10-23 21:25:54,182 - INFO - 
+======================================================================
+2025-10-23 21:25:54,183 - INFO - Executing Step 5/7
+2025-10-23 21:25:54,183 - INFO - ======================================================================
+
+2025-10-23 21:25:54,184 - INFO - ======================================================================
+2025-10-23 21:25:54,184 - INFO - STEP: ARIMA Evaluation
+2025-10-23 21:25:54,184 - INFO - Script: 5)model_evaluation.py
+2025-10-23 21:25:54,185 - INFO - Description: Evaluating ARIMA performance
+2025-10-23 21:25:54,185 - INFO - ======================================================================
+2025-10-23 21:26:05,292 - INFO - ARIMA Evaluation completed successfully
+
+2025-10-23 21:26:05,295 - INFO - Output verified: arima_evaluation_metrics.csv
+2025-10-23 21:26:05,296 - INFO - 
+======================================================================
+2025-10-23 21:26:05,297 - INFO - Executing Step 6/7
+2025-10-23 21:26:05,297 - INFO - ======================================================================
+
+2025-10-23 21:26:05,299 - INFO - ======================================================================
+2025-10-23 21:26:05,299 - INFO - STEP: SARIMA Modeling
+2025-10-23 21:26:05,300 - INFO - Script: 6)forecasting_with_sarima.py
+2025-10-23 21:26:05,301 - INFO - Description: Building SARIMA forecast model
+2025-10-23 21:26:05,302 - INFO - ======================================================================
+2025-10-23 21:28:09,094 - INFO - SARIMA Modeling completed successfully
+
+2025-10-23 21:28:09,096 - INFO - Output verified: forecast_results_sarima.csv
+2025-10-23 21:28:09,097 - INFO - 
+======================================================================
+2025-10-23 21:28:09,098 - INFO - Executing Step 7/7
+2025-10-23 21:28:09,098 - INFO - ======================================================================
+
+2025-10-23 21:28:09,099 - INFO - ======================================================================
+2025-10-23 21:28:09,099 - INFO - STEP: Model Comparison
+2025-10-23 21:28:09,100 - INFO - Script: 7)model_evaluation_sarima.py
+2025-10-23 21:28:09,101 - INFO - Description: Comparing ARIMA vs SARIMA
+2025-10-23 21:28:09,101 - INFO - ======================================================================
+2025-10-23 21:28:33,070 - INFO - Model Comparison completed successfully
+
+2025-10-23 21:28:33,078 - INFO - Output verified: model_comparison_metrics.csv
+2025-10-23 21:28:33,082 - INFO - 
+======================================================================
+2025-10-23 21:28:33,084 - INFO - PIPELINE EXECUTION SUMMARY
+2025-10-23 21:28:33,084 - INFO - ======================================================================
+2025-10-23 21:28:33,085 - INFO - Total Steps: 7
+2025-10-23 21:28:33,085 - INFO - Completed: 7
+2025-10-23 21:28:33,086 - INFO - Failed: 0
+2025-10-23 21:28:33,086 - INFO - 
+Completed Steps:
+2025-10-23 21:28:33,087 - INFO -    • Data Collection
+2025-10-23 21:28:33,088 - INFO -    • Data Preprocessing
+2025-10-23 21:28:33,088 - INFO -    • Exploratory Data Analysis
+2025-10-23 21:28:33,089 - INFO -    • ARIMA Modeling
+2025-10-23 21:28:33,089 - INFO -    • ARIMA Evaluation
+2025-10-23 21:28:33,090 - INFO -    • SARIMA Modeling
+2025-10-23 21:28:33,090 - INFO -    • Model Comparison
+2025-10-23 21:28:33,091 - INFO - ======================================================================
+2025-10-23 21:28:33,091 - INFO - 
+SUCCESS! All pipeline steps completed successfully!
+2025-10-23 21:28:33,092 - INFO - 
+Generated Files:
+2025-10-23 21:28:33,093 - INFO -    • ghatkopar_humidity_2023_2024.csv - Raw data
+2025-10-23 21:28:33,093 - INFO -    • cleaned_humidity.csv - Processed data
+2025-10-23 21:28:33,093 - INFO -    • Multiple visualization PNG files
+2025-10-23 21:28:33,094 - INFO -    • forecast_results.csv - ARIMA predictions
+2025-10-23 21:28:33,094 - INFO -    • forecast_results_sarima.csv - SARIMA predictions
+2025-10-23 21:28:33,094 - INFO -    • model_comparison_metrics.csv - Final comparison
+2025-10-23 21:28:33,095 - INFO - 
+Check README.md for detailed documentation
+2025-10-23 21:44:25,108 - INFO - 
+======================================================================
+2025-10-23 21:44:25,109 - INFO - HUMIDITY PREDICTION PIPELINE - STARTING
+2025-10-23 21:44:25,109 - INFO - ======================================================================
+
+2025-10-23 21:44:25,110 - INFO - Checking dependencies...
+2025-10-23 21:44:26,189 - INFO - pandas is installed
+2025-10-23 21:44:26,190 - INFO - numpy is installed
+2025-10-23 21:44:26,497 - INFO - matplotlib is installed
+2025-10-23 21:44:28,724 - INFO - seaborn is installed
+2025-10-23 21:44:28,724 - INFO - statsmodels is installed
+2025-10-23 21:44:29,071 - INFO - sklearn is installed
+2025-10-23 21:44:29,072 - INFO - scipy is installed
+2025-10-23 21:44:29,198 - INFO - requests is installed
+2025-10-23 21:44:29,198 - INFO - All dependencies are satisfied
+
+2025-10-23 21:44:29,198 - INFO - 
+======================================================================
+2025-10-23 21:44:29,199 - INFO - Executing Step 1/7
+2025-10-23 21:44:29,199 - INFO - ======================================================================
+
+2025-10-23 21:44:29,199 - INFO - ======================================================================
+2025-10-23 21:44:29,199 - INFO - STEP: Data Collection
+2025-10-23 21:44:29,200 - INFO - Script: scripts\1)dataset.py
+2025-10-23 21:44:29,200 - INFO - Description: Fetching humidity data from Open-Meteo API
+2025-10-23 21:44:29,200 - INFO - ======================================================================
+2025-10-23 21:44:33,491 - ERROR - Error output:
+2025-10-23 21:44:29,711 - INFO - Starting data collection for Ghatkopar, Mumbai
+2025-10-23 21:44:29,711 - INFO - Coordinates: (19.086, 72.909)
+2025-10-23 21:44:30,712 - INFO - Fetching 2023 — Status code: 200
+2025-10-23 21:44:30,717 - INFO - Successfully fetched 365 records for 2023
+2025-10-23 21:44:31,992 - INFO - Fetching 2024 — Status code: 200
+2025-10-23 21:44:31,993 - INFO - Successfully fetched 366 records for 2024
+2025-10-23 21:44:32,831 - INFO - Fetching 2025 — Status code: 400
+2025-10-23 21:44:32,832 - ERROR - Failed to fetch data for 2025: {"reason":"Parameter 'end_date' is out of allowed range from 1940-01-01 to 2025-10-23","error":true}
+2025-10-23 21:44:32,838 - INFO - Total records collected: 731
+2025-10-23 21:44:32,848 - INFO - Date range: 2023-01-01 to 2024-12-31
+2025-10-23 21:44:32,849 - INFO - Missing humidity values: 0
+Traceback (most recent call last):
+  File "D:\KJSCE\BTech\TY\Sem V\H-DA\MiniProject_16010123012\Code\scripts\1)dataset.py", line 93, in <module>
+    main()
+  File "D:\KJSCE\BTech\TY\Sem V\H-DA\MiniProject_16010123012\Code\scripts\1)dataset.py", line 84, in main
+    final_df.to_csv(CONFIG['output_file'], index=False)
+  File "C:\Users\Aaryan\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\pandas\util\_decorators.py", line 333, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aaryan\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\pandas\core\generic.py", line 3986, in to_csv
+    return DataFrameRenderer(formatter).to_csv(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aaryan\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\pandas\io\formats\format.py", line 1014, in to_csv
+    csv_formatter.save()
+  File "C:\Users\Aaryan\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\pandas\io\formats\csvs.py", line 251, in save
+    with get_handle(
+         ^^^^^^^^^^^
+  File "C:\Users\Aaryan\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\pandas\io\common.py", line 749, in get_handle
+    check_parent_directory(str(handle))
+  File "C:\Users\Aaryan\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\pandas\io\common.py", line 616, in check_parent_directory
+    raise OSError(rf"Cannot save file into a non-existent directory: '{parent}'")
+OSError: Cannot save file into a non-existent directory: '..\data'
+
+2025-10-23 21:44:33,492 - ERROR - Data Collection failed with return code 1
+
+2025-10-23 21:44:33,493 - ERROR - 
+Step failed: Data Collection
+2025-10-23 21:46:03,383 - INFO - 
+
+Pipeline interrupted by user
+2025-10-23 21:46:22,533 - INFO - 
+======================================================================
+2025-10-23 21:46:22,534 - INFO - HUMIDITY PREDICTION PIPELINE - STARTING
+2025-10-23 21:46:22,534 - INFO - ======================================================================
+
+2025-10-23 21:46:22,534 - INFO - Checking dependencies...
+2025-10-23 21:46:23,264 - INFO - pandas is installed
+2025-10-23 21:46:23,264 - INFO - numpy is installed
+2025-10-23 21:46:23,619 - INFO - matplotlib is installed
+2025-10-23 21:46:25,447 - INFO - seaborn is installed
+2025-10-23 21:46:25,447 - INFO - statsmodels is installed
+2025-10-23 21:46:25,745 - INFO - sklearn is installed
+2025-10-23 21:46:25,746 - INFO - scipy is installed
+2025-10-23 21:46:25,894 - INFO - requests is installed
+2025-10-23 21:46:25,895 - INFO - All dependencies are satisfied
+
+2025-10-23 21:46:25,895 - INFO - 
+======================================================================
+2025-10-23 21:46:25,895 - INFO - Executing Step 1/7
+2025-10-23 21:46:25,896 - INFO - ======================================================================
+
+2025-10-23 21:46:25,896 - INFO - ======================================================================
+2025-10-23 21:46:25,896 - INFO - STEP: Data Collection
+2025-10-23 21:46:25,897 - INFO - Script: scripts\1)dataset.py
+2025-10-23 21:46:25,897 - INFO - Description: Fetching humidity data from Open-Meteo API
+2025-10-23 21:46:25,897 - INFO - ======================================================================
+2025-10-23 21:46:30,347 - INFO - Data Collection completed successfully
+
+2025-10-23 21:46:30,347 - INFO - Output verified: data\ghatkopar_humidity_2023_2024.csv
+2025-10-23 21:46:30,347 - INFO - 
+======================================================================
+2025-10-23 21:46:30,348 - INFO - Executing Step 2/7
+2025-10-23 21:46:30,348 - INFO - ======================================================================
+
+2025-10-23 21:46:30,348 - INFO - ======================================================================
+2025-10-23 21:46:30,348 - INFO - STEP: Data Preprocessing
+2025-10-23 21:46:30,349 - INFO - Script: scripts\2)data_processing.py
+2025-10-23 21:46:30,349 - INFO - Description: Cleaning and validating data
+2025-10-23 21:46:30,349 - INFO - ======================================================================
+2025-10-23 21:46:34,655 - ERROR - Error output:
+2025-10-23 21:46:32,253 - INFO - Loading data from ../data/ghatkopar_humidity_2023_2024.csv
+2025-10-23 21:46:32,280 - INFO - Initial dataset shape: (731, 2)
+2025-10-23 21:46:32,280 - INFO - Columns: ['date', 'humidity']
+2025-10-23 21:46:32,291 - INFO - Date range: 2023-01-01 00:00:00 to 2024-12-31 00:00:00
+2025-10-23 21:46:32,292 - INFO - Data sorted chronologically
+2025-10-23 21:46:32,293 - INFO - Missing humidity values: 0 (0.00%)
+2025-10-23 21:46:32,293 - INFO - Outliers detected: 0 (0.00%)
+2025-10-23 21:46:32,295 - INFO - 
+\U0001f4ca Cleaned Data Statistics:
+2025-10-23 21:46:32,297 - INFO - 
+count    731.000000
+mean      69.625171
+std       16.335997
+min       25.000000
+25%       57.500000
+50%       71.000000
+75%       86.000000
+max       94.000000
+Name: humidity, dtype: float64
+2025-10-23 21:46:32,300 - INFO - \u2705 Cleaned data saved to ../data/cleaned_humidity.csv
+Traceback (most recent call last):
+  File "D:\KJSCE\BTech\TY\Sem V\H-DA\MiniProject_16010123012\Code\scripts\2)data_processing.py", line 184, in <module>
+    preprocess_humidity_data(CONFIG['input_file'], CONFIG['output_file'])
+  File "D:\KJSCE\BTech\TY\Sem V\H-DA\MiniProject_16010123012\Code\scripts\2)data_processing.py", line 120, in preprocess_humidity_data
+    create_quality_report(df)
+  File "D:\KJSCE\BTech\TY\Sem V\H-DA\MiniProject_16010123012\Code\scripts\2)data_processing.py", line 179, in create_quality_report
+    plt.savefig('../outputs/visualizations/data_quality_report.png', dpi=300, bbox_inches='tight')
+  File "C:\Users\Aaryan\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\matplotlib\pyplot.py", line 1251, in savefig
+    res = fig.savefig(*args, **kwargs)  # type: ignore[func-returns-value]
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aaryan\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\matplotlib\figure.py", line 3490, in savefig
+    self.canvas.print_figure(fname, **kwargs)
+  File "C:\Users\Aaryan\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\matplotlib\backend_bases.py", line 2186, in print_figure
+    result = print_method(
+             ^^^^^^^^^^^^^
+  File "C:\Users\Aaryan\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\matplotlib\backend_bases.py", line 2042, in <lambda>
+    print_method = functools.wraps(meth)(lambda *args, **kwargs: meth(
+                                                                 ^^^^^
+  File "C:\Users\Aaryan\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\matplotlib\backends\backend_agg.py", line 481, in print_png
+    self._print_pil(filename_or_obj, "png", pil_kwargs, metadata)
+  File "C:\Users\Aaryan\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\matplotlib\backends\backend_agg.py", line 430, in _print_pil
+    mpl.image.imsave(
+  File "C:\Users\Aaryan\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\matplotlib\image.py", line 1657, in imsave
+    image.save(fname, **pil_kwargs)
+  File "C:\Users\Aaryan\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\PIL\Image.py", line 2583, in save
+    fp = builtins.open(filename, "w+b")
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '../outputs/visualizations/data_quality_report.png'
+
+2025-10-23 21:46:34,657 - ERROR - Data Preprocessing failed with return code 1
+
+2025-10-23 21:46:34,658 - ERROR - 
+Step failed: Data Preprocessing
+2025-10-23 21:46:58,968 - INFO - 
+======================================================================
+2025-10-23 21:46:58,968 - INFO - Executing Step 3/7
+2025-10-23 21:46:58,971 - INFO - ======================================================================
+
+2025-10-23 21:46:58,972 - INFO - ======================================================================
+2025-10-23 21:46:58,973 - INFO - STEP: Exploratory Data Analysis
+2025-10-23 21:46:58,974 - INFO - Script: scripts\3)EDA.py
+2025-10-23 21:46:58,977 - INFO - Description: Analyzing trends and patterns
+2025-10-23 21:46:58,977 - INFO - ======================================================================
+2025-10-23 21:47:02,414 - ERROR - Error output:
+2025-10-23 21:47:01,192 - INFO - Starting Exploratory Data Analysis...
+2025-10-23 21:47:01,227 - INFO - Data loaded successfully: 731 records
+2025-10-23 21:47:01,227 - INFO - 
+1. Plotting humidity trend...
+Traceback (most recent call last):
+  File "D:\KJSCE\BTech\TY\Sem V\H-DA\MiniProject_16010123012\Code\scripts\3)EDA.py", line 253, in <module>
+    main()
+  File "D:\KJSCE\BTech\TY\Sem V\H-DA\MiniProject_16010123012\Code\scripts\3)EDA.py", line 222, in main
+    plot_humidity_trend(df)
+  File "D:\KJSCE\BTech\TY\Sem V\H-DA\MiniProject_16010123012\Code\scripts\3)EDA.py", line 90, in plot_humidity_trend
+    plt.savefig('../outputs/visualizations/humidity_trend.png', dpi=300, bbox_inches='tight')
+  File "C:\Users\Aaryan\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\matplotlib\pyplot.py", line 1251, in savefig
+    res = fig.savefig(*args, **kwargs)  # type: ignore[func-returns-value]
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aaryan\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\matplotlib\figure.py", line 3490, in savefig
+    self.canvas.print_figure(fname, **kwargs)
+  File "C:\Users\Aaryan\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\matplotlib\backend_bases.py", line 2186, in print_figure
+    result = print_method(
+             ^^^^^^^^^^^^^
+  File "C:\Users\Aaryan\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\matplotlib\backend_bases.py", line 2042, in <lambda>
+    print_method = functools.wraps(meth)(lambda *args, **kwargs: meth(
+                                                                 ^^^^^
+  File "C:\Users\Aaryan\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\matplotlib\backends\backend_agg.py", line 481, in print_png
+    self._print_pil(filename_or_obj, "png", pil_kwargs, metadata)
+  File "C:\Users\Aaryan\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\matplotlib\backends\backend_agg.py", line 430, in _print_pil
+    mpl.image.imsave(
+  File "C:\Users\Aaryan\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\matplotlib\image.py", line 1657, in imsave
+    image.save(fname, **pil_kwargs)
+  File "C:\Users\Aaryan\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\PIL\Image.py", line 2583, in save
+    fp = builtins.open(filename, "w+b")
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '../outputs/visualizations/humidity_trend.png'
+
+2025-10-23 21:47:02,415 - ERROR - Exploratory Data Analysis failed with return code 1
+
+2025-10-23 21:47:02,415 - ERROR - 
+Step failed: Exploratory Data Analysis
+2025-10-23 21:50:14,033 - INFO - 
+
+Pipeline interrupted by user
+2025-10-23 21:51:55,649 - INFO - 
+======================================================================
+2025-10-23 21:51:55,650 - INFO - HUMIDITY PREDICTION PIPELINE - STARTING
+2025-10-23 21:51:55,650 - INFO - ======================================================================
+
+2025-10-23 21:51:55,650 - INFO - Checking dependencies...
+2025-10-23 21:51:56,845 - INFO - pandas is installed
+2025-10-23 21:51:56,845 - INFO - numpy is installed
+2025-10-23 21:51:57,052 - INFO - matplotlib is installed
+2025-10-23 21:51:59,110 - INFO - seaborn is installed
+2025-10-23 21:51:59,111 - INFO - statsmodels is installed
+2025-10-23 21:51:59,418 - INFO - sklearn is installed
+2025-10-23 21:51:59,419 - INFO - scipy is installed
+2025-10-23 21:51:59,557 - INFO - requests is installed
+2025-10-23 21:51:59,557 - INFO - All dependencies are satisfied
+
+2025-10-23 21:51:59,558 - INFO - 
+======================================================================
+2025-10-23 21:51:59,558 - INFO - Executing Step 1/7
+2025-10-23 21:51:59,558 - INFO - ======================================================================
+
+2025-10-23 21:51:59,559 - INFO - ======================================================================
+2025-10-23 21:51:59,559 - INFO - STEP: Data Collection
+2025-10-23 21:51:59,559 - INFO - Script: scripts\1)dataset.py
+2025-10-23 21:51:59,559 - INFO - Description: Fetching humidity data from Open-Meteo API
+2025-10-23 21:51:59,559 - INFO - ======================================================================
+2025-10-23 21:52:03,204 - INFO - Data Collection completed successfully
+
+2025-10-23 21:52:03,205 - INFO - Output verified: data\ghatkopar_humidity_2023_2024.csv
+2025-10-23 21:52:03,205 - INFO - 
+======================================================================
+2025-10-23 21:52:03,205 - INFO - Executing Step 2/7
+2025-10-23 21:52:03,206 - INFO - ======================================================================
+
+2025-10-23 21:52:03,207 - INFO - ======================================================================
+2025-10-23 21:52:03,207 - INFO - STEP: Data Preprocessing
+2025-10-23 21:52:03,208 - INFO - Script: scripts\2)data_processing.py
+2025-10-23 21:52:03,208 - INFO - Description: Cleaning and validating data
+2025-10-23 21:52:03,209 - INFO - ======================================================================
+2025-10-23 21:52:10,059 - INFO - Data Preprocessing completed successfully
+
+2025-10-23 21:52:10,060 - INFO - Output verified: data\cleaned_humidity.csv
+2025-10-23 21:52:10,061 - INFO - 
+======================================================================
+2025-10-23 21:52:10,062 - INFO - Executing Step 3/7
+2025-10-23 21:52:10,063 - INFO - ======================================================================
+
+2025-10-23 21:52:10,067 - INFO - ======================================================================
+2025-10-23 21:52:10,069 - INFO - STEP: Exploratory Data Analysis
+2025-10-23 21:52:10,072 - INFO - Script: scripts\3)EDA.py
+2025-10-23 21:52:10,072 - INFO - Description: Analyzing trends and patterns
+2025-10-23 21:52:10,072 - INFO - ======================================================================
+2025-10-23 21:52:16,403 - INFO - 
+
+Pipeline interrupted by user

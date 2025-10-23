@@ -1,0 +1,16 @@
+{
+  "name": "nodejs-demonstrations",
+  "version": "1.0.0",
+  "description": "Comprehensive Node.js functionality demonstrations",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "routing": "node 1-basic-routing/server.js",
+    "file-ops": "node 2-file-operations/file-operations.js",
+    "custom-module": "node 3-custom-modules/demo.js",
+    "blocking": "node 4-blocking-nonblocking/demo.js"
+  },
+  "keywords": ["nodejs", "http", "routing", "file-operations", "modules", "async"],
+  "author": "Your Name",
+  "license": "MIT"
+}
