@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Great Circle Distance</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #4a6741 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-header:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(52, 152, 219, 0.3);
+        }
+
+        .section-header h2 {
+            font-size: 1.8em;
+            margin-bottom: 5px;
+        }
+
+        .section-header .step-number {
+            position: absolute;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2em;
+            opacity: 0.3;
+        }
+
+        .section-content {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.6s ease;
+        }
+
+        .section.active .section-content {
+            max-height: 2000px;
+            padding: 20px;
+        }
+
+        .intuition-box {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-left: 5px solid #28a745;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .formula-box {
+            background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+            border: 2px solid #ffc107;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(255, 193, 7, 0.2);
+        }
+
+        .formula-box .formula {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #856404;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .example-box {
+            background: linear-gradient(135deg, #e1f5fe, #b3e5fc);
+            border-left: 5px solid #03a9f4;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(3, 169, 244, 0.1);
+        }
+
+        .calculation-step {
+            background: white;
+            margin: 15px 0;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 3px solid #007bff;
+            font-family: 'Courier New', monospace;
+        }
+
+        .interactive-demo {
+            background: linear-gradient(135deg, #f3e5f5, #e1bee7);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 25px 0;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(156, 39, 176, 0.1);
+        }
+
+        .triangle-demo, .sphere-demo {
+            margin: 20px auto;
+            border: 2px solid #333;
+            border-radius: 10px;
+            background: white;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px;
+            background: #f8f9fa;
+            border-top: 1px solid #dee2e6;
+        }
+
+        .nav-button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-button.prev {
+            background: linear-gradient(135deg, #6c757d, #495057);
+            color: white;
+        }
+
+        .nav-button.next {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: #e9ecef;
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #28a745, #20c997);
+            transition: width 0.6s ease;
+            width: 0%;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #a8e6cf 0%, #dcedc1 100%);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .math-expression {
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+
+            .header {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .section-header h2 {
+                font-size: 1.4em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Great Circle Distance</h1>
+            <p>Law of cosines, for flat surfaces and spherical surfaces</p>
+        </div>
+
+        <div class="content">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <!-- Section 1: Law of Cosines Intuition -->
+            <div class="section active" data-section="1">
+                <div class="section-header" onclick="toggleSection(1)">
+                    <h2>Step 1: Understanding the Law of Cosines</h2>
+                    <p>Building intuition for triangles in flat space</p>
+                    <span class="step-number">1</span>
+                </div>
+                <div class="section-content">
+                    <div class="intuition-box">
+                        <h3>The Big Idea</h3>
+                        <p>Imagine you're standing at one corner of a triangle and you know two sides and the angle between them. The <span class="highlight">Law of Cosines</span> helps you find that mysterious third side!</p>
+                        
+                        <p>Think of it this way: if the angle is 90°, we get our familiar Pythagorean theorem. But what if the angle is sharp (acute) or wide (obtuse)? The cosine term adjusts for this!</p>
+                        
+                        <ul style="margin: 15px 0; padding-left: 20px;">
+                            <li><strong>Acute angle (< 90°):</strong> cos θ > 0, so c² < a² + b² (shorter than Pythagorean)</li>
+                            <li><strong>Right angle (= 90°):</strong> cos θ = 0, so c² = a² + b² (exactly Pythagorean)</li>
+                            <li><strong>Obtuse angle (> 90°):</strong> cos θ < 0, so c² > a² + b² (longer than Pythagorean)</li>
+                        </ul>
+                    </div>
+
+                    <div class="formula-box">
+                        <h3>📐 The Law of Cosines</h3>
+                        <div class="formula">c² = a² + b² - 2ab cos(C)</div>
+                        <p>Where C is the angle opposite to side c</p>
+                    </div>
+
+                    <div class="interactive-demo">
+                        <h3> Visual Understanding</h3>
+                        <canvas id="triangleCanvas" class="triangle-demo" width="400" height="300"></canvas>
+                        <p>The law of cosines generalizes the Pythagorean theorem for any triangle!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 2: Law of Cosines Example -->
+            <div class="section" data-section="2">
+                <div class="section-header" onclick="toggleSection(2)">
+                    <h2>Step 2: Law of Cosines in Action</h2>
+                    <p>Solving a real numerical example</p>
+                    <span class="step-number">2</span>
+                </div>
+                <div class="section-content">
+                    <div class="example-box">
+                        <h3> Numerical Example</h3>
+                        <p><strong>Problem:</strong> A triangle has sides a = 8 units, b = 6 units, and the angle C between them is 60°. Find the third side c.</p>
+                    </div>
+
+                    <div class="calculation-step">
+                        <strong>Step 1:</strong> Write down the law of cosines<br>
+                        c² = a² + b² - 2ab cos(C)
+                    </div>
+
+                    <div class="calculation-step">
+                        <strong>Step 2:</strong> Substitute the known values<br>
+                        c² = 8² + 6² - 2(8)(6) cos(60°)<br>
+                        c² = 64 + 36 - 96 cos(60°)
+                    </div>
+
+                    <div class="calculation-step">
+                        <strong>Step 3:</strong> Calculate cos(60°)<br>
+                        cos(60°) = 0.5<br>
+                        c² = 64 + 36 - 96(0.5)<br>
+                        c² = 100 - 48 = 52
+                    </div>
+
+                    <div class="calculation-step">
+                        <strong>Step 4:</strong> Find c<br>
+                        c = √52 = √(4 × 13) = 2√13 ≈ 7.21 units
+                    </div>
+
+                    <div class="intuition-box">
+                        <h3>What This Tells Us</h3>
+                        <p>Notice how the result (7.21) is less than a + b = 14 but greater than |a - b| = 2. This makes sense because we have a valid triangle! The 60° angle creates a "compromise" between the two extreme cases.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 3: Spherical Law of Cosines Intuition -->
+            <div class="section" data-section="3">
+                <div class="section-header" onclick="toggleSection(3)">
+                    <h2>Step 3: Moving to Spheres - New Angles!</h2>
+                    <p>Understanding spherical triangles and their unique properties</p>
+                    <span class="step-number">3</span>
+                </div>
+                <div class="section-content">
+                    <div class="intuition-box">
+                        <h3>🌍 Welcome to Curved Space!</h3>
+                        <p>On a sphere, everything changes! Imagine drawing a triangle on Earth's surface using <span class="highlight">great circles</span> (like the equator or meridians). These "straight lines" on a sphere create spherical triangles.</p>
+                        
+                        <p><strong>Key insight:</strong> We now have TWO types of angles to consider:</p>
+                        <ul style="margin: 15px 0; padding-left: 20px;">
+                            <li><strong>Side angles (a, b, c):</strong> The angular distances along great circles (like latitude/longitude differences)</li>
+                            <li><strong>Corner angles (A, B, C):</strong> The angles between great circles at their intersection points</li>
+                        </ul>
+                    </div>
+
+                    <div class="formula-box">
+                        <h3>🗺️ Spherical Law of Cosines</h3>
+                        <div class="formula">cos(c) = cos(a)cos(b) + sin(a)sin(b)cos(C)</div>
+                        <p>Notice: we're taking cosines of the SIDES now!</p>
+                    </div>
+
+                    <div class="intuition-box">
+                        <h3> Why This Form?</h3>
+                        <p>On a sphere, "distances" are measured as angles from the center. A quarter of Earth's circumference corresponds to 90°. The spherical law of cosines relates these angular distances in a beautiful way that reduces to our familiar flat version when the sphere becomes infinitely large (flat)!</p>
+                        
+                        <p><strong>The magic:</strong> When sides a, b, c are very small (much smaller than the sphere's radius), this formula approximates to the regular law of cosines!</p>
+                    </div>
+
+                    <div class="interactive-demo">
+                        <h3>🌐 Spherical Triangle Visualization</h3>
+                        <canvas id="sphereCanvas" class="sphere-demo" width="400" height="400"></canvas>
+                        <p>A spherical triangle on Earth's surface - all sides are parts of great circles!</p>
+                    </div>
+
+                    <div class="intuition-box">
+                        <h3>The Deeper Pattern</h3>
+                        <p>This relationship reveals something profound about geometry:</p>
+                        <ul style="margin: 15px 0; padding-left: 20px;">
+                            <li><strong>Flat geometry</strong> is the limit of <strong>curved geometry</strong> as curvature → 0</li>
+                            <li><strong>Euclidean trigonometry</strong> emerges naturally from <strong>spherical trigonometry</strong></li>
+                            <li>The cosine "correction" in both formulas has the <em>same geometric meaning</em> - it accounts for the angle between two sides!</li>
+                        </ul>
+                        <p>This is why mathematicians say flat geometry is just a special case of curved geometry! 🤯</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 4: Spherical Law of Cosines Example -->
+            <div class="section" data-section="4">
+                <div class="section-header" onclick="toggleSection(4)">
+                    <h2>Step 4: Spherical Calculations</h2>
+                    <p>Applying spherical trigonometry to real problems</p>
+                    <span class="step-number">4</span>
+                </div>
+                <div class="section-content">
+                    <div class="example-box">
+                        <h3>🌍 Real-World Example: Navigation</h3>
+                        <p><strong>Problem:</strong> On a unit sphere, we have a spherical triangle where:</p>
+                        <ul style="margin: 10px 0; padding-left: 20px;">
+                            <li>Side a = 60° (π/3 radians)</li>
+                            <li>Side b = 45° (π/4 radians)</li>
+                            <li>Angle C = 90° (π/2 radians)</li>
+                        </ul>
+                        <p>Find the third side c.</p>
+                    </div>
+
+                    <div class="calculation-step">
+                        <strong>Step 1:</strong> Apply the spherical law of cosines<br>
+                        cos(c) = cos(a)cos(b) + sin(a)sin(b)cos(C)
+                    </div>
+
+                    <div class="calculation-step">
+                        <strong>Step 2:</strong> Substitute known values<br>
+                        cos(c) = cos(60°)cos(45°) + sin(60°)sin(45°)cos(90°)<br>
+                        cos(c) = cos(60°)cos(45°) + sin(60°)sin(45°)(0)
+                    </div>
+
+                    <div class="calculation-step">
+                        <strong>Step 3:</strong> Calculate the trigonometric values<br>
+                        cos(60°) = 0.5, cos(45°) = √2/2 ≈ 0.707<br>
+                        cos(c) = (0.5)(0.707) + 0 = 0.354
+                    </div>
+
+                    <div class="calculation-step">
+                        <strong>Step 4:</strong> Find c<br>
+                        c = arccos(0.354) ≈ 69.3°
+                    </div>
+
+                    <div class="intuition-box">
+                        <h3>Spherical Insight</h3>
+                        <p>Notice something fascinating: if this were a flat triangle with sides 60 and 45 units and a 90° angle between them, the third side would be √(60² + 45²) ≈ 75 units. But on the sphere, we get 69.3°!</p>
+                        <p>This happens because <span class="highlight">spherical triangles are "more compact"</span> than flat ones - the curvature pulls everything together.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 5: Great Circle Distance -->
+            <div class="section" data-section="5">
+                <div class="section-header" onclick="toggleSection(5)">
+                    <h2>Step 5: Great Circle Distances</h2>
+                    <p>The shortest path on Earth's surface</p>
+                    <span class="step-number">5</span>
+                </div>
+                <div class="section-content">
+                    <div class="intuition-box">
+                        <h3>✈️ Why "Great Circle"?</h3>
+                        <p>Imagine you're an ant walking on a basketball. The shortest path between any two points isn't a straight line through the ball (you can't tunnel!), but the shortest path along the surface. This path lies on a <span class="highlight">"great circle"</span> - a circle that cuts the sphere exactly in half.</p>
+                        
+                        <p><strong>Real-world examples:</strong></p>
+                        <ul style="margin: 15px 0; padding-left: 20px;">
+                            <li>🌍 <strong>Equator:</strong> Great circle around Earth's middle</li>
+                            <li>🧭 <strong>Meridians:</strong> Great circles passing through both poles</li>
+                            <li>✈️ <strong>Flight paths:</strong> Airlines follow great circles to save fuel</li>
+                        </ul>
+                    </div>
+
+                    <div class="formula-box">
+                        <h3>📏 Great Circle Distance Formula</h3>
+                        <div class="formula">d = R × arccos[sin(φ₁)sin(φ₂) + cos(φ₁)cos(φ₂)cos(λ₂ - λ₁)]</div>
+                        <p>Where:</p>
+                        <ul style="text-align: left; margin-top: 10px;">
+                            <li>R = Earth's radius (≈ 6,371 km)</li>
+                            <li>φ₁, φ₂ = latitudes of points 1 and 2</li>
+                            <li>λ₁, λ₂ = longitudes of points 1 and 2</li>
+                        </ul>
+                    </div>
+
+                    <div class="intuition-box">
+                        <h3>🔗 Connection to Spherical Law of Cosines</h3>
+                        <p>This is actually the spherical law of cosines in disguise! If we consider a spherical triangle where:</p>
+                        <ul style="margin: 10px 0; padding-left: 20px;">
+                            <li>One vertex is at the North Pole</li>
+                            <li>The other two vertices are our two points on Earth</li>
+                            <li>The sides are: 90°-φ₁, 90°-φ₂, and the great circle distance we want</li>
+                            <li>The angle at the pole is λ₂ - λ₁ (longitude difference)</li>
+                        </ul>
+                        <p>The great circle distance formula emerges naturally!</p>
+                    </div>
+
+                    <div class="example-box">
+                        <h3>🗺️ Real Example: New York to London</h3>
+                        <p><strong>Calculate the great circle distance between:</strong></p>
+                        <ul style="margin: 10px 0; padding-left: 20px;">
+                            <li>New York: 40.7128° N, 74.0060° W</li>
+                            <li>London: 51.5074° N, 0.1278° W</li>
+                        </ul>
+                    </div>
+
+                    <div class="calculation-step">
+                        <strong>Step 1:</strong> Convert to radians<br>
+                        φ₁ = 40.7128° × π/180 = 0.7118 rad<br>
+                        φ₂ = 51.5074° × π/180 = 0.8988 rad<br>
+                        Δλ = |(-74.0060°) - (-0.1278°)| = 73.8782° × π/180 = 1.2892 rad
+                    </div>
+
+                    <div class="calculation-step">
+                        <strong>Step 2:</strong> Apply the formula<br>
+                        d = 6371 × arccos[sin(0.7118)sin(0.8988) + cos(0.7118)cos(0.8988)cos(1.2892)]<br>
+                        d = 6371 × arccos[0.6536 × 0.7804 + 0.7568 × 0.6251 × 0.2896]<br>
+                        d = 6371 × arccos[0.5101 + 0.1372] = 6371 × arccos(0.6473)
+                    </div>
+
+                    <div class="calculation-step">
+                        <strong>Step 3:</strong> Calculate the result<br>
+                        d = 6371 × 0.8751 = 5,575 km
+                    </div>
+
+                    <div class="intuition-box">
+                        <h3>🎯 Why This Matters</h3>
+                        <p>The great circle distance of 5,575 km is about 600 km shorter than flying due east then north (which would be about 6,200 km). That's significant fuel savings!</p>
+                        <p>This is why flight paths often look curved on flat maps but are actually the shortest routes on our spherical Earth. 🌍✈️</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-button prev" onclick="previousSection()" id="prevBtn" disabled>← Previous</button>
+            <span id="sectionCounter">Step 1 of 5</span>
+            <button class="nav-button next" onclick="nextSection()" id="nextBtn">Next →</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSection = 1;
+        const totalSections = 5;
+
+        function updateProgress() {
+            const progressFill = document.getElementById('progressFill');
+            const percentage = (currentSection / totalSections) * 100;
+            progressFill.style.width = percentage + '%';
+            
+            document.getElementById('sectionCounter').textContent = `Step ${currentSection} of ${totalSections}`;
+            
+            // Update navigation buttons
+            document.getElementById('prevBtn').disabled = currentSection === 1;
+            document.getElementById('nextBtn').disabled = currentSection === totalSections;
+            
+            if (currentSection === totalSections) {
+                document.getElementById('nextBtn').textContent = '🎉 Complete!';
+            } else {
+                document.getElementById('nextBtn').textContent = 'Next →';
+            }
+        }
+
+        function toggleSection(sectionNum) {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                if (parseInt(section.dataset.section) === sectionNum) {
+                    section.classList.toggle('active');
+                } else {
+                    section.classList.remove('active');
+                }
+            });
+            currentSection = sectionNum;
+            updateProgress();
+        }
+
+        function nextSection() {
+            if (currentSection < totalSections) {
+                currentSection++;
+                toggleSection(currentSection);
+                scrollToSection(currentSection);
+            }
+        }
+
+        function previousSection() {
+            if (currentSection > 1) {
+                currentSection--;
+                toggleSection(currentSection);
+                scrollToSection(currentSection);
+            }
+        }
+
+        function scrollToSection(sectionNum) {
+            const section = document.querySelector(`[data-section="${sectionNum}"]`);
+            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Canvas drawings
+        function drawTriangle() {
+            const canvas = document.getElementById('triangleCanvas');
+            if (!canvas) return;
+            
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Triangle coordinates
+            const A = { x: 100, y: 200 };
+            const B = { x: 300, y: 200 };
+            const C = { x: 200, y: 100 };
+            
+            // Draw triangle
+            ctx.strokeStyle = '#2c3e50';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(A.x, A.y);
+            ctx.lineTo(B.x, B.y);
+            ctx.lineTo(C.x, C.y);
+            ctx.closePath();
+            ctx.stroke();
+            
+            // Labels
+            ctx.fillStyle = '#e74c3c';
+            ctx.font = 'bold 16px Arial';
+            ctx.fillText('a = 8', (B.x + C.x) / 2 + 10, (B.y + C.y) / 2);
+            ctx.fillText('b = 6', (A.x + C.x) / 2 - 20, (A.y + C.y) / 2);
+            ctx.fillText('c = ?', (A.x + B.x) / 2, (A.y + B.y) / 2 + 25);
+            ctx.fillText('60°', A.x + 15, A.y - 10);
+            
+            // Points
+            ctx.fillStyle = '#3498db';
+            [A, B, C].forEach(point => {
+                ctx.beginPath();
+                ctx.arc(point.x, point.y, 5, 0, 2 * Math.PI);
+                ctx.fill();
+            });
+        }
+
+        function drawSphere() {
+            const canvas = document.getElementById('sphereCanvas');
+            if (!canvas) return;
+            
+            const ctx = canvas.getContext('2d');
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const radius = 150;
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw sphere outline
+            ctx.strokeStyle = '#34495e';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+            ctx.stroke();
+            
+            // Draw great circles (simplified)
+            ctx.strokeStyle = '#3498db';
+            ctx.lineWidth = 2;
+            
+            // Equator
+            ctx.beginPath();
+            ctx.ellipse(centerX, centerY, radius, radius * 0.3, 0, 0, 2 * Math.PI);
+            ctx.stroke();
+            
+            // Meridian
+            ctx.beginPath();
+            ctx.ellipse(centerX, centerY, radius * 0.3, radius, 0, 0, 2 * Math.PI);
+            ctx.stroke();
+            
+            // Spherical triangle vertices
+            const points = [
+                { x: centerX + radius * 0.5, y: centerY - radius * 0.7 },
+                { x: centerX - radius * 0.6, y: centerY + radius * 0.4 },
+                { x: centerX + radius * 0.7, y: centerY + radius * 0.5 }
+            ];
+            
+            // Draw spherical triangle sides (as arcs)
+            ctx.strokeStyle = '#e74c3c';
+            ctx.lineWidth = 3;
+            
+            // Connect points with curved lines to simulate great circle arcs
+            points.forEach((point, i) => {
+                const nextPoint = points[(i + 1) % points.length];
+                ctx.beginPath();
+                ctx.moveTo(point.x, point.y);
+                const controlX = centerX;
+                const controlY = centerY;
+                ctx.quadraticCurveTo(controlX, controlY, nextPoint.x, nextPoint.y);
+                ctx.stroke();
+            });
+            
+            // Mark vertices
+            ctx.fillStyle = '#2c3e50';
+            points.forEach(point => {
+                ctx.beginPath();
+                ctx.arc(point.x, point.y, 6, 0, 2 * Math.PI);
+                ctx.fill();
+            });
+            
+            // Labels
+            ctx.fillStyle = '#2c3e50';
+            ctx.font = 'bold 14px Arial';
+            ctx.fillText('A', points[0].x + 10, points[0].y - 10);
+            ctx.fillText('B', points[1].x - 20, points[1].y + 10);
+            ctx.fillText('C', points[2].x + 10, points[2].y + 10);
+        }
+
+        // Initialize visualizations
+        window.addEventListener('load', () => {
+            drawTriangle();
+            drawSphere();
+            updateProgress();
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' && currentSection < totalSections) {
+                nextSection();
+            } else if (e.key === 'ArrowLeft' && currentSection > 1) {
+                previousSection();
+            }
+        });
+
+        // Auto-expand first section
+        document.addEventListener('DOMContentLoaded', () => {
+            toggleSection(1);
+        });
+    </script>
+</body>
+</html>

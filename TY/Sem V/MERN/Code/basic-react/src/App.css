@@ -1,0 +1,39 @@
+
+.App {
+	max-width: 500px;
+	margin: 2rem auto;
+	padding: 2rem;
+	background: #f9f9f9;
+	border-radius: 10px;
+	box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+	font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.counter-section {
+	margin: 1.5rem 0;
+}
+
+button {
+	margin: 0 0.5rem 0.5rem 0;
+	padding: 0.5rem 1rem;
+	border: none;
+	border-radius: 5px;
+	background: #007bff;
+	color: #fff;
+	cursor: pointer;
+	font-size: 1rem;
+	transition: background 0.2s;
+}
+button:hover {
+	background: #0056b3;
+}
+
+.toggle-list {
+	margin: 1.5rem 0;
+}
+
+ul {
+	padding-left: 1.5rem;
+}
+
+

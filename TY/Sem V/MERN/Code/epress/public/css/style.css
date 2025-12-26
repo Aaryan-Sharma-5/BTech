@@ -1,0 +1,244 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f5f5f5;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Navigation */
+.navbar {
+    background: #2c3e50;
+    color: white;
+    padding: 15px 0;
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 15px;
+    padding: 5px 10px;
+}
+
+.navbar nav a:hover {
+    background: #34495e;
+}
+
+/* Hero Section */
+.hero-section {
+    margin: 20px 0;
+    text-align: center;
+    padding: 30px;
+    background: white;
+    border: 1px solid #ddd;
+}
+
+/* Forms */
+.signup-container, .info-box, .success-message {
+    background: white;
+    padding: 20px;
+    margin: 20px 0;
+    border: 1px solid #ddd;
+}
+
+.signup-form {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #ddd;
+    color: #333;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.btn:hover {
+    background: #ccc;
+}
+
+.btn-primary {
+    background: #2c3e50;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #34495e;
+}
+
+/* Grid Layouts */
+.product-grid, .employee-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.product-card, .employee-card, .order-card {
+    background: white;
+    padding: 20px;
+    border: 1px solid #ddd;
+}
+
+.product-card .price {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+/* Employee Section */
+.employee-card {
+    text-align: center;
+}
+
+.employee-card .role {
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+/* Orders */
+.orders-section {
+    margin-top: 20px;
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.status-badge {
+    padding: 5px 10px;
+    font-size: 0.85em;
+    font-weight: bold;
+}
+
+.status-delivered {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status-processing {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.status-pending {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+/* Info Box */
+.info-box {
+    background: #e8f4f8;
+    border-left: 4px solid #2c3e50;
+}
+
+.info-box code {
+    background: #f8f9fa;
+    padding: 2px 6px;
+}
+
+/* Headings */
+h1, h2, h3 {
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: #666;
+    margin-bottom: 15px;
+}
+
+/* Footer */
+footer {
+    background: #2c3e50;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: 50px;
+}
+
+/* Image Demo Grid */
+.image-demo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.demo-card {
+    background: white;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-left: 4px solid #2c3e50;
+}
+
+.demo-card h3 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.demo-card code {
+    display: block;
+    background: #f8f9fa;
+    padding: 8px;
+    margin: 10px 0;
+    font-size: 0.9em;
+    word-wrap: break-word;
+}
+
+.info-box ul {
+    line-height: 1.8;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .navbar .container {
+        flex-direction: column;
+    }
+    
+    .navbar nav a {
+        margin: 5px;
+    }
+    
+    .product-grid, .employee-grid, .image-demo-grid {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,57 @@
+{
+  "employees": [
+    {
+      "id": "EMP001",
+      "name": "Rajesh Kumar",
+      "role": "Delivery Manager",
+      "department": "Operations",
+      "email": "rajesh.kumar@freshgrocery.com",
+      "phone": "+91-9876543210",
+      "joinDate": "2020-05-15",
+      "experience": "4 years"
+    },
+    {
+      "id": "EMP002",
+      "name": "Priya Sharma",
+      "role": "Customer Service Lead",
+      "department": "Customer Support",
+      "email": "priya.sharma@freshgrocery.com",
+      "phone": "+91-9876543211",
+      "joinDate": "2021-03-20",
+      "experience": "3 years"
+    },
+    {
+      "id": "EMP003",
+      "name": "Amit Patel",
+      "role": "Warehouse Supervisor",
+      "department": "Inventory",
+      "email": "amit.patel@freshgrocery.com",
+      "phone": "+91-9876543212",
+      "joinDate": "2019-08-10",
+      "experience": "5 years"
+    },
+    {
+      "id": "EMP004",
+      "name": "Sneha Desai",
+      "role": "Quality Assurance Manager",
+      "department": "Quality Control",
+      "email": "sneha.desai@freshgrocery.com",
+      "phone": "+91-9876543213",
+      "joinDate": "2020-11-05",
+      "experience": "3.5 years"
+    }
+  ],
+  "totalEmployees": 4,
+  "departments": [
+    "Operations",
+    "Customer Support",
+    "Inventory",
+    "Quality Control"
+  ],
+  "companyInfo": {
+    "name": "Fresh Grocery Delivery",
+    "founded": "2019",
+    "headquarters": "Mumbai, India",
+    "totalStaff": 150
+  }
+}

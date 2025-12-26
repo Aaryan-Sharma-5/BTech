@@ -1,0 +1,32 @@
+<!-- Problem 4.1 – Change HTML Content -->
+<!-- Problem 4.2 – Dynamic List Items -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DOM Manipulation</title>
+</head>
+<body>
+  <p id="demo">This is a paragraph.</p>
+  <button onclick="changeText()">Click Me</button>
+
+  <ul id="myList"></ul>
+  <button onclick="addItem()">Add Item</button>
+
+  <script>
+    function changeText() {
+      document.getElementById("demo").innerHTML = "Text updated!";
+    }
+
+    let itemCount = 0;
+    function addItem() {
+      itemCount++;
+      const li = document.createElement("li");
+      li.textContent = "Item " + itemCount;
+      document.getElementById("myList").appendChild(li);
+    }
+  </script>
+</body>
+</html>

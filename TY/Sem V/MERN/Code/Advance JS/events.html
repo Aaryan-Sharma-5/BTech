@@ -1,0 +1,26 @@
+<!-- Problem 5.1 – Button Click Event -->
+<!-- Problem 5.2 – Keyboard Input Display -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Events</title>
+</head>
+<body>
+  <button id="btnClick">Click Me</button>
+  <input type="text" id="inputField" placeholder="Type something..." />
+  <div id="displayText"></div>
+
+  <script>
+    document.getElementById("btnClick").addEventListener("click", function () {
+      console.log("Button clicked!");
+    });
+
+    document.getElementById("inputField").addEventListener("input", function () {
+      document.getElementById("displayText").innerText = this.value;
+    });
+  </script>
+</body>
+</html>
